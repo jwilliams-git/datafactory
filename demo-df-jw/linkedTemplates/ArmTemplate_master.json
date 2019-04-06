@@ -42,11 +42,11 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"Web1_properties_typeProperties_url": {
-						"value": "[parameters('Web1_properties_typeProperties_url')]"
-					},
 					"trigger1_properties_typeProperties_scope": {
 						"value": "[parameters('trigger1_properties_typeProperties_scope')]"
+					},
+					"Web1_properties_typeProperties_url": {
+						"value": "[parameters('Web1_properties_typeProperties_url')]"
 					}
 				}
 			},
