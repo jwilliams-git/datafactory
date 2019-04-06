@@ -8,7 +8,7 @@
 				"typeProperties": {
 					"variableName": "pipelineDetails",
 					"value": {
-						"value": "@concat('[',pipeline(),']')",
+						"value": "@pipeline()",
 						"type": "Expression"
 					}
 				}
@@ -16,7 +16,7 @@
 		],
 		"variables": {
 			"pipelineDetails": {
-				"type": "Array"
+				"type": "Object"
 			}
 		}
 	}
