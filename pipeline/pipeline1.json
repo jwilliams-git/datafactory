@@ -4,8 +4,18 @@
 		"activities": [
 			{
 				"name": "Set Variable1",
-				"type": "SetVariable"
+				"type": "SetVariable",
+				"typeProperties": {
+					"variableName": "itWorks",
+					"value": "true"
+				}
 			}
-		]
+		],
+		"variables": {
+			"itWorks": {
+				"type": "Boolean",
+				"defaultValue": false
+			}
+		}
 	}
 }
