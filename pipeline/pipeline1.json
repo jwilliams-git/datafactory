@@ -6,17 +6,17 @@
 				"name": "Set Variable1",
 				"type": "SetVariable",
 				"typeProperties": {
-					"variableName": "foo",
+					"variableName": "pipelineDetails",
 					"value": {
-						"value": "bar",
+						"value": "[@pipeline()]",
 						"type": "Expression"
 					}
 				}
 			}
 		],
 		"variables": {
-			"foo": {
-				"type": "String"
+			"pipelineDetails": {
+				"type": "Array"
 			}
 		}
 	}
