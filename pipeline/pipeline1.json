@@ -16,7 +16,7 @@
 		],
 		"variables": {
 			"pipelineDetails": {
-				"type": "Object"
+				"type": "String"
 			}
 		}
 	}
