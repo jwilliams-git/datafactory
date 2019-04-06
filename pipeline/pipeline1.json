@@ -7,7 +7,10 @@
 				"type": "SetVariable",
 				"typeProperties": {
 					"variableName": "itWorks",
-					"value": "true"
+					"value": {
+						"value": "@bool(true)",
+						"type": "Expression"
+					}
 				}
 			}
 		],
