@@ -1,0 +1,15 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "demo-df-jw"
+		},
+		"Web1_properties_typeProperties_url": {
+			"value": "https://www.w3schools.com/html/tryit.asp?filename=tryhtml_table_intro"
+		},
+		"trigger1_properties_typeProperties_scope": {
+			"value": "/subscriptions/74fd2837-9069-4db0-9431-786411ba8fb4/resourceGroups/myRg/providers/Microsoft.Storage/storageAccounts/poceventgrid0"
+		}
+	}
+}
