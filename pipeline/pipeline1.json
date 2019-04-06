@@ -13,8 +13,7 @@
 		],
 		"variables": {
 			"itWorks": {
-				"type": "Boolean",
-				"defaultValue": false
+				"type": "Boolean"
 			}
 		}
 	}
