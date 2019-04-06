@@ -1,3 +1,11 @@
 {
-	"name": "pipeline1"
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set Variable1",
+				"type": "SetVariable"
+			}
+		]
+	}
 }

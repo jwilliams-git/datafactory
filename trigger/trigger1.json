@@ -12,6 +12,7 @@
 		],
 		"type": "BlobEventsTrigger",
 		"typeProperties": {
+			"blobPathBeginsWith": "/test/",
 			"scope": "/subscriptions/74fd2837-9069-4db0-9431-786411ba8fb4/resourceGroups/myRg/providers/Microsoft.Storage/storageAccounts/poceventgrid0",
 			"events": [
 				"Microsoft.Storage.BlobCreated"
