@@ -6,17 +6,17 @@
 				"name": "Set Variable1",
 				"type": "SetVariable",
 				"typeProperties": {
-					"variableName": "itWorks",
+					"variableName": "foo",
 					"value": {
-						"value": "@bool(true)",
+						"value": "bar",
 						"type": "Expression"
 					}
 				}
 			}
 		],
 		"variables": {
-			"itWorks": {
-				"type": "Boolean"
+			"foo": {
+				"type": "String"
 			}
 		}
 	}
