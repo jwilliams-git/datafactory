@@ -1,0 +1,14 @@
+{
+	"name": "FileShare1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "linkedService1",
+			"type": "LinkedServiceReference"
+		},
+		"type": "FileShare",
+		"typeProperties": {
+			"fileName": "ADF.png",
+			"folderPath": ""
+		}
+	}
+}
