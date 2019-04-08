@@ -1,0 +1,14 @@
+{
+	"name": "WebTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Web1",
+			"type": "LinkedServiceReference"
+		},
+		"type": "WebTable",
+		"typeProperties": {
+			"index": 0,
+			"path": "https://docs.microsoft.com/en-us/azure/data-factory/copy-activity-overview"
+		}
+	}
+}
