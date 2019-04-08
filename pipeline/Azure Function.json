@@ -13,7 +13,7 @@
 					"secureInput": false
 				},
 				"typeProperties": {
-					"functionName": "HttpTrigger1",
+					"functionName": "Hello",
 					"method": "GET"
 				},
 				"linkedServiceName": {
