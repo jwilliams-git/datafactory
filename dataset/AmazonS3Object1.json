@@ -1,0 +1,23 @@
+{
+	"name": "AmazonS3Object1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AmazonS31",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AmazonS3Object",
+		"typeProperties": {
+			"format": {
+				"type": "TextFormat",
+				"columnDelimiter": ",",
+				"rowDelimiter": "",
+				"nullValue": "\\N",
+				"treatEmptyAsNull": true,
+				"skipLineCount": 0,
+				"firstRowAsHeader": false
+			},
+			"key": "s3-comma-seperated.csv",
+			"bucketName": "jkw-data-factory-demo"
+		}
+	}
+}
