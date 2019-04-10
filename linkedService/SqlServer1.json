@@ -4,9 +4,9 @@
 	"properties": {
 		"type": "SqlServer",
 		"typeProperties": {
-			"connectionString": "integrated security=True;data source=(localdb)\\mssqllocaldb;initial catalog=master",
+			"connectionString": "integrated security=True;data source=(localdb)\\mssqllocaldb;initial catalog=DFDemo",
 			"userName": "CEI.DOMAIN\\jwilliams",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI2MTRiNjM2OS04YWYwLTQwNjYtYWE4My1jNzVkMTY0NGNlZGEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJiNjRkMjYzNS0wYzIxLTQ0NWEtYTIxMi00OWY5YjAzYWQyMzQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "integrationRuntime1",
