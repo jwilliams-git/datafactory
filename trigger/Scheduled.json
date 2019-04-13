@@ -1,14 +1,25 @@
 {
 	"name": "Scheduled",
 	"properties": {
+		"annotations": [
+			"Every Sunday at 12am UTC"
+		],
 		"runtimeState": "Stopped",
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {
-				"frequency": "Minute",
+				"frequency": "Week",
 				"interval": 1,
 				"startTime": "2019-04-13T20:28:00.000Z",
-				"timeZone": "UTC"
+				"timeZone": "UTC",
+				"schedule": {
+					"hours": [
+						0
+					],
+					"weekDays": [
+						"Sunday"
+					]
+				}
 			}
 		}
 	}
