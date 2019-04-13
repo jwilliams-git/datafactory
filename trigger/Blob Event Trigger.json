@@ -1,11 +1,11 @@
 {
-	"name": "trigger1",
+	"name": "Blob Event Trigger",
 	"properties": {
 		"runtimeState": "Started",
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "pipeline1",
+					"referenceName": "Pipeline",
 					"type": "PipelineReference"
 				}
 			}
