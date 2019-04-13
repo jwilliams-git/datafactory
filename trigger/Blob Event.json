@@ -1,5 +1,5 @@
 {
-	"name": "Blob Event Trigger",
+	"name": "Blob Event",
 	"properties": {
 		"runtimeState": "Started",
 		"pipelines": [
