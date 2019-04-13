@@ -1,5 +1,5 @@
 {
-	"name": "Scheduled Trigger",
+	"name": "Scheduled",
 	"properties": {
 		"runtimeState": "Stopped",
 		"type": "ScheduleTrigger",
