@@ -1,6 +1,9 @@
 {
 	"name": "Tumbling Window",
 	"properties": {
+		"annotations": [
+			"Every 15 minutes"
+		],
 		"runtimeState": "Stopped",
 		"type": "TumblingWindowTrigger",
 		"typeProperties": {
