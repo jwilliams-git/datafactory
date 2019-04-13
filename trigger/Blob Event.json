@@ -1,6 +1,9 @@
 {
 	"name": "Blob Event",
 	"properties": {
+		"annotations": [
+			"Blob created"
+		],
 		"runtimeState": "Started",
 		"pipelines": [
 			{
