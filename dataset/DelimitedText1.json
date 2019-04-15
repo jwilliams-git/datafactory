@@ -9,6 +9,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "destCars.csv",
 				"container": "test"
 			},
 			"columnDelimiter": ",",
