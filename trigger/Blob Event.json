@@ -5,14 +5,6 @@
 			"Blob created"
 		],
 		"runtimeState": "Started",
-		"pipelines": [
-			{
-				"pipelineReference": {
-					"referenceName": "Pipeline",
-					"type": "PipelineReference"
-				}
-			}
-		],
 		"type": "BlobEventsTrigger",
 		"typeProperties": {
 			"blobPathBeginsWith": "/test/",
