@@ -5,20 +5,26 @@
 		"factoryName": {
 			"value": "demo-df-jw"
 		},
-		"AzureBlobStorage1_connectionString": {
+		"AmazonS31_secretAccessKey": {
 			"value": ""
 		},
-		"linkedService1_password": {
+		"AzureBlobStorage1_connectionString": {
 			"value": ""
 		},
 		"AzureFunction1_functionKey": {
 			"value": ""
 		},
-		"AzureBlob1_properties_typeProperties_fileName": {
+		"AzureTableStorage1_connectionString": {
 			"value": ""
 		},
-		"AzureBlob1_properties_typeProperties_folderPath": {
-			"value": "test"
+		"SqlServer1_connectionString": {
+			"value": ""
+		},
+		"SqlServer1_password": {
+			"value": ""
+		},
+		"linkedService1_password": {
+			"value": ""
 		},
 		"FileShare1_properties_typeProperties_fileName": {
 			"value": "ADF.png"
@@ -26,14 +32,26 @@
 		"FileShare1_properties_typeProperties_folderPath": {
 			"value": ""
 		},
+		"AmazonS31_properties_typeProperties_accessKeyId": {
+			"value": "AKIAWL3CELZZSYVHJVWQ"
+		},
+		"SqlServer1_properties_typeProperties_userName": {
+			"value": "CEI.DOMAIN\\jwilliams"
+		},
 		"Web1_properties_typeProperties_url": {
 			"value": "https://www.w3schools.com/html/tryit.asp?filename=tryhtml_table_intro"
 		},
 		"linkedService1_properties_typeProperties_userId": {
 			"value": "jwilliams@ceiamerica.com"
 		},
-		"trigger1_properties_typeProperties_scope": {
+		"Blob Event_properties_typeProperties_scope": {
 			"value": "/subscriptions/74fd2837-9069-4db0-9431-786411ba8fb4/resourceGroups/myRg/providers/Microsoft.Storage/storageAccounts/poceventgrid0"
+		},
+		"AzureBlob_properties_typeProperties_fileName": {
+			"value": "cars.csv"
+		},
+		"AzureBlob_properties_typeProperties_folderPath": {
+			"value": "test"
 		},
 		"containerUri": {
 			"value": ""

@@ -7,25 +7,33 @@
 			"metadata": "Data Factory Name",
 			"defaultValue": "demo-df-jw"
 		},
+		"AmazonS31_secretAccessKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'secretAccessKey' of 'AmazonS31'"
+		},
 		"AzureBlobStorage1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
-		},
-		"linkedService1_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'linkedService1'"
 		},
 		"AzureFunction1_functionKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'functionKey' of 'AzureFunction1'"
 		},
-		"AzureBlob1_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": ""
+		"AzureTableStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureTableStorage1'"
 		},
-		"AzureBlob1_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "test"
+		"SqlServer1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'SqlServer1'"
+		},
+		"SqlServer1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SqlServer1'"
+		},
+		"linkedService1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'linkedService1'"
 		},
 		"FileShare1_properties_typeProperties_fileName": {
 			"type": "string",
@@ -35,6 +43,14 @@
 			"type": "string",
 			"defaultValue": ""
 		},
+		"AmazonS31_properties_typeProperties_accessKeyId": {
+			"type": "string",
+			"defaultValue": "AKIAWL3CELZZSYVHJVWQ"
+		},
+		"SqlServer1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "CEI.DOMAIN\\jwilliams"
+		},
 		"Web1_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://www.w3schools.com/html/tryit.asp?filename=tryhtml_table_intro"
@@ -43,9 +59,17 @@
 			"type": "string",
 			"defaultValue": "jwilliams@ceiamerica.com"
 		},
-		"trigger1_properties_typeProperties_scope": {
+		"Blob Event_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/74fd2837-9069-4db0-9431-786411ba8fb4/resourceGroups/myRg/providers/Microsoft.Storage/storageAccounts/poceventgrid0"
+		},
+		"AzureBlob_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "cars.csv"
+		},
+		"AzureBlob_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "test"
 		},
 		"containerUri": {
 			"type": "string",
@@ -74,20 +98,35 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"AmazonS31_secretAccessKey": {
+						"value": "[parameters('AmazonS31_secretAccessKey')]"
+					},
 					"AzureBlobStorage1_connectionString": {
 						"value": "[parameters('AzureBlobStorage1_connectionString')]"
 					},
 					"AzureFunction1_functionKey": {
 						"value": "[parameters('AzureFunction1_functionKey')]"
 					},
+					"AzureTableStorage1_connectionString": {
+						"value": "[parameters('AzureTableStorage1_connectionString')]"
+					},
+					"SqlServer1_connectionString": {
+						"value": "[parameters('SqlServer1_connectionString')]"
+					},
+					"SqlServer1_password": {
+						"value": "[parameters('SqlServer1_password')]"
+					},
 					"linkedService1_password": {
 						"value": "[parameters('linkedService1_password')]"
 					},
-					"AzureBlob1_properties_typeProperties_fileName": {
-						"value": "[parameters('AzureBlob1_properties_typeProperties_fileName')]"
+					"AmazonS31_properties_typeProperties_accessKeyId": {
+						"value": "[parameters('AmazonS31_properties_typeProperties_accessKeyId')]"
 					},
-					"AzureBlob1_properties_typeProperties_folderPath": {
-						"value": "[parameters('AzureBlob1_properties_typeProperties_folderPath')]"
+					"Blob Event_properties_typeProperties_scope": {
+						"value": "[parameters('Blob Event_properties_typeProperties_scope')]"
+					},
+					"SqlServer1_properties_typeProperties_userName": {
+						"value": "[parameters('SqlServer1_properties_typeProperties_userName')]"
 					},
 					"Web1_properties_typeProperties_url": {
 						"value": "[parameters('Web1_properties_typeProperties_url')]"
@@ -95,8 +134,11 @@
 					"linkedService1_properties_typeProperties_userId": {
 						"value": "[parameters('linkedService1_properties_typeProperties_userId')]"
 					},
-					"trigger1_properties_typeProperties_scope": {
-						"value": "[parameters('trigger1_properties_typeProperties_scope')]"
+					"AzureBlob_properties_typeProperties_fileName": {
+						"value": "[parameters('AzureBlob_properties_typeProperties_fileName')]"
+					},
+					"AzureBlob_properties_typeProperties_folderPath": {
+						"value": "[parameters('AzureBlob_properties_typeProperties_folderPath')]"
 					},
 					"FileShare1_properties_typeProperties_fileName": {
 						"value": "[parameters('FileShare1_properties_typeProperties_fileName')]"
@@ -107,6 +149,26 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_0')]"
+			]
 		}
 	]
 }
