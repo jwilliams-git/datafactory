@@ -14,9 +14,9 @@
 				"nullValue": "\\N",
 				"treatEmptyAsNull": true,
 				"skipLineCount": 0,
-				"firstRowAsHeader": false
+				"firstRowAsHeader": true
 			},
-			"fileName": "",
+			"fileName": "cars.csv",
 			"folderPath": "test"
 		}
 	}
