@@ -12,6 +12,16 @@
 					"name": "source1",
 					"script": "source(output(\n\t\t\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> source1"
 				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1",
+					"script": "source1 sink(input(\n\t\tmake as string,\n\t\tmodel as string,\n\t\tyear as string,\n\t\tcolor as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> sink1"
+				}
 			]
 		}
 	}
