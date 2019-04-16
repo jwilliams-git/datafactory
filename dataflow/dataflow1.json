@@ -11,6 +11,14 @@
 					},
 					"name": "source1",
 					"script": "source(output(\n\t\tmake as string,\n\t\tmodel as string,\n\t\tyear as string,\n\t\tcolor as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DelimitedText3",
+						"type": "DatasetReference"
+					},
+					"name": "source2",
+					"script": "source(output(\n\t\tmake as string,\n\t\tmodel as string,\n\t\tyear as string,\n\t\tcolor as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> source2"
 				}
 			],
 			"sinks": [
@@ -21,6 +29,12 @@
 					},
 					"name": "sink1",
 					"script": "source1 sink(input(\n\t\tmake as string,\n\t\tmodel as string,\n\t\tyear as string,\n\t\tcolor as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Join1",
+					"script": "source2, source1 join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),\n\tjoinType:'inner',\n\tbroadcast: 'none')~> Join1"
 				}
 			]
 		}
