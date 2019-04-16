@@ -12,7 +12,7 @@
 		},
 		"type": "FileShare",
 		"typeProperties": {
-			"fileName": "adf.png",
+			"fileName": "",
 			"folderPath": {
 				"value": "files",
 				"type": "Expression"
