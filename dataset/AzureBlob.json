@@ -2,40 +2,13 @@
 	"name": "AzureBlob",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureBlobStorage1",
+			"referenceName": "Demo Blob Storage",
 			"type": "LinkedServiceReference"
 		},
 		"type": "AzureBlob",
-		"structure": [
-			{
-				"name": "make",
-				"type": "String"
-			},
-			{
-				"name": "model",
-				"type": "String"
-			},
-			{
-				"name": "year",
-				"type": "String"
-			},
-			{
-				"name": "color",
-				"type": "String"
-			}
-		],
 		"typeProperties": {
-			"format": {
-				"type": "TextFormat",
-				"columnDelimiter": ",",
-				"rowDelimiter": "",
-				"nullValue": "\\N",
-				"treatEmptyAsNull": true,
-				"skipLineCount": 0,
-				"firstRowAsHeader": true
-			},
-			"fileName": "cars.csv",
-			"folderPath": "test"
+			"fileName": "",
+			"folderPath": "files"
 		}
 	}
 }
