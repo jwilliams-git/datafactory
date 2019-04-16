@@ -1,0 +1,16 @@
+{
+	"name": "local_machine_linked_sevice",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "C:\\Users\\jwilliams\\Desktop\\presentations\\azure bootcamp 19",
+			"userId": "jwilliams@ceiamerica.com",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI4MDNmYWZhZS1kYzMwLTQ1YjktYjZkMi04YmRkOGEwZDc3MjciLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntime1",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
