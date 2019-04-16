@@ -81,7 +81,7 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"filePath": {
-								"value": "@variables('filePath')",
+								"value": "@pipeline().parameters.relativeFilePath",
 								"type": "Expression"
 							}
 						}
@@ -91,17 +91,8 @@
 			}
 		],
 		"parameters": {
-			"fileName1": {
+			"relativeFilePath": {
 				"type": "String"
-			},
-			"fileName2": {
-				"type": "String"
-			}
-		},
-		"variables": {
-			"filePath": {
-				"type": "String",
-				"defaultValue": "C:\\Users\\jwilliams\\Desktop\\presentations\\azure bootcamp 19\\"
 			}
 		},
 		"folder": {
