@@ -15,7 +15,7 @@
 				],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('Lookup1').output",
+						"value": "@array(activity('Lookup Files').output)",
 						"type": "Expression"
 					},
 					"activities": [
@@ -34,11 +34,26 @@
 									"type": "FileSystemSource",
 									"recursive": true
 								},
+								"sink": {
+									"type": "BlobSink"
+								},
 								"enableStaging": false
 							},
 							"inputs": [
 								{
 									"referenceName": "Local_File_System",
+									"type": "DatasetReference",
+									"parameters": {
+										"fileName": {
+											"value": "@activity('Lookup Files').output",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "Azure_Demo_Blob_Storage",
 									"type": "DatasetReference"
 								}
 							]

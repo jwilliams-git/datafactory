@@ -1,0 +1,14 @@
+{
+	"name": "Azure_Demo_Blob_Storage",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Demo Blob Storage",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureBlob",
+		"typeProperties": {
+			"fileName": "",
+			"folderPath": "files"
+		}
+	}
+}
