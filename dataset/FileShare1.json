@@ -2,7 +2,7 @@
 	"name": "FileShare1",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "linkedService1",
+			"referenceName": "local_machine_linked_sevice",
 			"type": "LinkedServiceReference"
 		},
 		"type": "FileShare",
