@@ -1,17 +1,19 @@
 {
-	"name": "FileShare1",
+	"name": "Local_File_Share",
 	"properties": {
+		"linkedServiceName": {
+			"referenceName": "local_machine_linked_sevice",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"filePath": {
+				"type": "String"
+			}
+		},
 		"type": "FileShare",
 		"typeProperties": {
-			"format": {
-				"type": "TextFormat",
-				"columnDelimiter": ",",
-				"rowDelimiter": "",
-				"nullValue": "\\N",
-				"treatEmptyAsNull": true,
-				"skipLineCount": 0,
-				"firstRowAsHeader": false
-			}
+			"fileName": "",
+			"folderPath": ""
 		}
 	}
 }

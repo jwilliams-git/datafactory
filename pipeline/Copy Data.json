@@ -73,8 +73,12 @@
 					"secureInput": false
 				},
 				"typeProperties": {
+					"source": {
+						"type": "FileSystemSource",
+						"recursive": true
+					},
 					"dataset": {
-						"referenceName": "FileShare1",
+						"referenceName": "Local_File_Share",
 						"type": "DatasetReference"
 					}
 				}
