@@ -33,8 +33,8 @@
 			],
 			"transformations": [
 				{
-					"name": "Aggregate1",
-					"script": "source2 aggregate(groupBy(year),\n\tyear = year < 2019) ~> Aggregate1"
+					"name": "AlterRow1",
+					"script": "source2 alterRow(deleteIf(year < 2019)) ~> AlterRow1"
 				}
 			]
 		}
