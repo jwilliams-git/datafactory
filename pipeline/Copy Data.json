@@ -23,20 +23,32 @@
 					},
 					"enableStaging": false
 				},
-				"inputs": [
-					{
-						"referenceName": "WebTable1",
-						"type": "DatasetReference"
-					}
-				],
 				"outputs": [
 					{
 						"referenceName": "AzureTable1",
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "For Each File",
+				"type": "ForEach"
 			}
 		],
+		"parameters": {
+			"fileName1": {
+				"type": "String"
+			},
+			"fileName2": {
+				"type": "String"
+			}
+		},
+		"variables": {
+			"filePath": {
+				"type": "String",
+				"defaultValue": "C:\\Users\\jwilliams\\Desktop\\presentations\\azure bootcamp 19\\"
+			}
+		},
 		"folder": {
 			"name": "Activities"
 		}
