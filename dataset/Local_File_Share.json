@@ -14,7 +14,7 @@
 		"typeProperties": {
 			"fileName": "",
 			"folderPath": {
-				"value": "@dataset().filePath",
+				"value": "files",
 				"type": "Expression"
 			}
 		}
