@@ -4,9 +4,9 @@
 	"properties": {
 		"type": "FileServer",
 		"typeProperties": {
-			"host": "C:\\Users\\jwilliams\\Desktop\\presentations\\azure bootcamp 19\\files",
+			"host": "C:\\Users\\jwilliams\\Desktop\\presentations\\azure bootcamp 19",
 			"userId": "jwilliams@ceiamerica.com",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyYTAwOWIwNi1mM2U3LTQxM2ItODVhOS0xYzQ3M2QwZDRlZDkiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIxMTZhNmNmNC0zNTRhLTQ2YjctOTc3Yi05NjJiNGUzNWY1MjciLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "integrationRuntime1",
