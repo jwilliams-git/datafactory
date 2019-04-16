@@ -17,7 +17,7 @@
 					"method": "GET"
 				},
 				"linkedServiceName": {
-					"referenceName": "AzureFunction1",
+					"referenceName": "azure_function_hello_linked_service",
 					"type": "LinkedServiceReference"
 				}
 			}
