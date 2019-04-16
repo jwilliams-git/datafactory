@@ -13,6 +13,24 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/WebTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Web1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "WebTable",
+				"typeProperties": {
+					"index": 0,
+					"path": "https://docs.microsoft.com/en-us/azure/data-factory/copy-activity-overview"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -28,6 +46,15 @@
 							"name": "source1",
 							"script": "source(output(\n\t\tmake as string,\n\t\tmodel as string,\n\t\tyear as string,\n\t\tcolor as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> source1",
 							"typeProperties": {}
+						},
+						{
+							"dataset": {
+								"referenceName": "DelimitedText3",
+								"type": "DatasetReference"
+							},
+							"name": "source2",
+							"script": "source(output(\n\t\tmake as string,\n\t\tmodel as string,\n\t\tyear as integer,\n\t\tcolor as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> source2",
+							"typeProperties": {}
 						}
 					],
 					"sinks": [
@@ -40,7 +67,12 @@
 							"script": "source1 sink(input(\n\t\tmake as string,\n\t\tmodel as string,\n\t\tyear as string,\n\t\tcolor as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> sink1"
 						}
 					],
-					"transformations": []
+					"transformations": [
+						{
+							"name": "AlterRow1",
+							"script": "source2 alterRow(deleteIf(year < 2019)) ~> AlterRow1"
+						}
+					]
 				}
 			},
 			"dependsOn": []
@@ -95,7 +127,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/WebTable1')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
@@ -122,6 +156,7 @@
 								"parameters": {},
 								"datasetParameters": {
 									"source1": {},
+									"source2": {},
 									"sink1": {}
 								}
 							},

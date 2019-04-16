@@ -26,6 +26,12 @@
 		"linkedService1_password": {
 			"value": ""
 		},
+		"AzureBlob_properties_typeProperties_fileName": {
+			"value": "cars.csv"
+		},
+		"AzureBlob_properties_typeProperties_folderPath": {
+			"value": "test"
+		},
 		"FileShare1_properties_typeProperties_fileName": {
 			"value": "ADF.png"
 		},
@@ -46,12 +52,6 @@
 		},
 		"Blob Event_properties_typeProperties_scope": {
 			"value": "/subscriptions/74fd2837-9069-4db0-9431-786411ba8fb4/resourceGroups/myRg/providers/Microsoft.Storage/storageAccounts/poceventgrid0"
-		},
-		"AzureBlob_properties_typeProperties_fileName": {
-			"value": "cars.csv"
-		},
-		"AzureBlob_properties_typeProperties_folderPath": {
-			"value": "test"
 		},
 		"containerUri": {
 			"value": ""

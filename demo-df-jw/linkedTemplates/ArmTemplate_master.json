@@ -35,6 +35,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'linkedService1'"
 		},
+		"AzureBlob_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "cars.csv"
+		},
+		"AzureBlob_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "test"
+		},
 		"FileShare1_properties_typeProperties_fileName": {
 			"type": "string",
 			"defaultValue": "ADF.png"
@@ -62,14 +70,6 @@
 		"Blob Event_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/74fd2837-9069-4db0-9431-786411ba8fb4/resourceGroups/myRg/providers/Microsoft.Storage/storageAccounts/poceventgrid0"
-		},
-		"AzureBlob_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "cars.csv"
-		},
-		"AzureBlob_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "test"
 		},
 		"containerUri": {
 			"type": "string",
@@ -125,6 +125,12 @@
 					"Blob Event_properties_typeProperties_scope": {
 						"value": "[parameters('Blob Event_properties_typeProperties_scope')]"
 					},
+					"AzureBlob_properties_typeProperties_fileName": {
+						"value": "[parameters('AzureBlob_properties_typeProperties_fileName')]"
+					},
+					"AzureBlob_properties_typeProperties_folderPath": {
+						"value": "[parameters('AzureBlob_properties_typeProperties_folderPath')]"
+					},
 					"SqlServer1_properties_typeProperties_userName": {
 						"value": "[parameters('SqlServer1_properties_typeProperties_userName')]"
 					},
@@ -133,12 +139,6 @@
 					},
 					"linkedService1_properties_typeProperties_userId": {
 						"value": "[parameters('linkedService1_properties_typeProperties_userId')]"
-					},
-					"AzureBlob_properties_typeProperties_fileName": {
-						"value": "[parameters('AzureBlob_properties_typeProperties_fileName')]"
-					},
-					"AzureBlob_properties_typeProperties_folderPath": {
-						"value": "[parameters('AzureBlob_properties_typeProperties_folderPath')]"
 					},
 					"FileShare1_properties_typeProperties_fileName": {
 						"value": "[parameters('FileShare1_properties_typeProperties_fileName')]"
