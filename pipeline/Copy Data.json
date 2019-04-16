@@ -3,37 +3,21 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy Data1",
-				"type": "Copy",
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"typeProperties": {
-					"source": {
-						"type": "WebSource"
-					},
-					"sink": {
-						"type": "AzureTableSink",
-						"azureTableInsertType": "replace",
-						"writeBatchSize": 10000
-					},
-					"enableStaging": false
-				},
-				"outputs": [
-					{
-						"referenceName": "AzureTable1",
-						"type": "DatasetReference"
-					}
-				]
-			},
-			{
 				"name": "For Each File",
 				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup Files",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup1').output",
+						"type": "Expression"
+					},
 					"activities": [
 						{
 							"name": "Copy Files",
@@ -63,7 +47,7 @@
 				}
 			},
 			{
-				"name": "Lookup1",
+				"name": "Lookup Files",
 				"type": "Lookup",
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -79,8 +63,15 @@
 					},
 					"dataset": {
 						"referenceName": "Local_File_Share",
-						"type": "DatasetReference"
-					}
+						"type": "DatasetReference",
+						"parameters": {
+							"filePath": {
+								"value": "@variables('filePath')",
+								"type": "Expression"
+							}
+						}
+					},
+					"firstRowOnly": false
 				}
 			}
 		],
