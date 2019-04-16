@@ -1,13 +1,21 @@
 {
-	"name": "FileShare1",
+	"name": "Local_File_System",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "local_machine_linked_sevice",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"fileName": {
+				"type": "String"
+			}
+		},
 		"type": "FileShare",
 		"typeProperties": {
-			"fileName": "ADF.png",
+			"fileName": {
+				"value": "@dataset().fileName",
+				"type": "Expression"
+			},
 			"folderPath": ""
 		}
 	}
