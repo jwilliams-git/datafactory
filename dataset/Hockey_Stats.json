@@ -1,5 +1,5 @@
 {
-	"name": "WebTable1",
+	"name": "Hockey_Stats",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Web1",
@@ -8,7 +8,7 @@
 		"type": "WebTable",
 		"typeProperties": {
 			"index": 0,
-			"path": "https://docs.microsoft.com/en-us/azure/data-factory/copy-activity-overview"
+			"path": "http://www.hockeydb.com/ihdb/stats/leagues/seasons/nhl19272019.html"
 		}
 	}
 }
