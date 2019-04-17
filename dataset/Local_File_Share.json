@@ -5,11 +5,6 @@
 			"referenceName": "local_machine_linked_sevice",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"filePath": {
-				"type": "String"
-			}
-		},
 		"type": "FileShare",
 		"typeProperties": {
 			"format": {

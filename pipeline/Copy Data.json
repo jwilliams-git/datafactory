@@ -78,13 +78,7 @@
 					},
 					"dataset": {
 						"referenceName": "Local_File_Share",
-						"type": "DatasetReference",
-						"parameters": {
-							"filePath": {
-								"value": "@pipeline().parameters.relativeFilePath",
-								"type": "Expression"
-							}
-						}
+						"type": "DatasetReference"
 					},
 					"firstRowOnly": false
 				}
