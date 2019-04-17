@@ -21,7 +21,7 @@
 				"skipLineCount": 0,
 				"firstRowAsHeader": false
 			},
-			"fileName": "",
+			"fileName": "*",
 			"folderPath": {
 				"value": "@dataset().filePath",
 				"type": "Expression"
