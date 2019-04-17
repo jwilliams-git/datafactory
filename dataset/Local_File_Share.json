@@ -16,7 +16,7 @@
 				"skipLineCount": 0,
 				"firstRowAsHeader": true
 			},
-			"fileName": "*",
+			"fileName": "*.csv",
 			"folderPath": {
 				"value": "files",
 				"type": "Expression"
