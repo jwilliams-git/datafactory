@@ -1,0 +1,13 @@
+{
+	"name": "Data_Factory_Demo_Data_Set",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureTableStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureTable",
+		"typeProperties": {
+			"tableName": "dataFactoryDemo"
+		}
+	}
+}

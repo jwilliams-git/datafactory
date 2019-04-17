@@ -7,7 +7,7 @@
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "Lookup Files",
+						"activity": "If Data Exists",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -62,7 +62,7 @@
 				}
 			},
 			{
-				"name": "Lookup Files",
+				"name": "Lookup Data",
 				"type": "Lookup",
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -73,22 +73,35 @@
 				},
 				"typeProperties": {
 					"source": {
-						"type": "FileSystemSource",
-						"recursive": true
+						"type": "AzureTableSource",
+						"azureTableSourceIgnoreTableNotFound": false
 					},
 					"dataset": {
-						"referenceName": "Local_File_Share",
+						"referenceName": "Data_Factory_Demo_Data_Set",
 						"type": "DatasetReference"
 					},
-					"firstRowOnly": false
+					"firstRowOnly": true
+				}
+			},
+			{
+				"name": "If Data Exists",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Lookup Data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"typeProperties": {
+					"expression": {
+						"value": "@length(activity('Lookup Data').output.firstRow)",
+						"type": "Expression"
+					}
 				}
 			}
 		],
-		"parameters": {
-			"relativeFilePath": {
-				"type": "String"
-			}
-		},
 		"folder": {
 			"name": "Activities"
 		}
