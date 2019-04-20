@@ -1,0 +1,45 @@
+{
+	"name": "DataToUpdateCSV",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Demo Blob Storage",
+			"type": "LinkedServiceReference"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "forUpdate.csv",
+				"container": "files"
+			},
+			"columnDelimiter": ",",
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "PartitionKey",
+				"type": "String"
+			},
+			{
+				"name": "RowKey",
+				"type": "String"
+			},
+			{
+				"name": "Timestamp",
+				"type": "String"
+			},
+			{
+				"name": "Artist",
+				"type": "String"
+			},
+			{
+				"name": "Processed",
+				"type": "String"
+			},
+			{
+				"name": "Song",
+				"type": "String"
+			}
+		]
+	}
+}
