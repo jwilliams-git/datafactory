@@ -6,7 +6,7 @@
 				"name": "Lookup Data",
 				"type": "Lookup",
 				"policy": {
-					"timeout": "1:00",
+					"timeout": "0.00:1:00",
 					"retry": 0,
 					"retryIntervalInSeconds": 30,
 					"secureOutput": false,
