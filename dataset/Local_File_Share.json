@@ -16,7 +16,10 @@
 				"skipLineCount": 0,
 				"firstRowAsHeader": true
 			},
-			"fileName": "",
+			"fileName": {
+				"value": "@concat(utcnow(),'.csv')",
+				"type": "Expression"
+			},
 			"folderPath": {
 				"value": "files",
 				"type": "Expression"
