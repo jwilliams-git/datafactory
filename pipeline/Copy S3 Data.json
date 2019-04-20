@@ -1,5 +1,5 @@
 {
-	"name": "pipeline2",
+	"name": "Copy S3 Data",
 	"properties": {
 		"activities": [
 			{
