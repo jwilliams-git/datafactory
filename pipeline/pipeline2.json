@@ -1,0 +1,89 @@
+{
+	"name": "pipeline2",
+	"properties": {
+		"activities": [
+			{
+				"name": "S3 Object Exists",
+				"type": "Validation",
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "AmazonS3Object1",
+						"type": "DatasetReference"
+					},
+					"timeout": "0.00:01:00",
+					"sleep": 10
+				}
+			},
+			{
+				"name": "Copy S3 Object",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Look For S3 Data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "FileSystemSource",
+						"recursive": true
+					},
+					"sink": {
+						"type": "FileSystemSink"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "AmazonS3Object1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Local_File_Share",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Look For S3 Data",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "S3 Object Exists",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "FileSystemSource",
+						"recursive": true
+					},
+					"dataset": {
+						"referenceName": "AmazonS3Object1",
+						"type": "DatasetReference"
+					}
+				}
+			}
+		]
+	}
+}
