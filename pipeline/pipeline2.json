@@ -10,7 +10,7 @@
 						"referenceName": "Amazon_S3_Object",
 						"type": "DatasetReference"
 					},
-					"timeout": "0.00:00:25",
+					"timeout": "0.00:00:15",
 					"sleep": 10
 				}
 			},
@@ -106,8 +106,34 @@
 					"url": "https://prod-34.eastus.logic.azure.com:443/workflows/cc1c41cefcda4773b17ef1565b6366d3/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OpgAMjs3ObbrlTBIIScvQQY2Lk2onl2nzNnGntTgLGQ",
 					"method": "POST",
 					"body": {
-						"value": "@activity('S3 Object Exists').output",
+						"value": "{\n\"error\": \"unable to access S3 object\"\n}",
 						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "S3 Has No Data",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Look For S3 Data",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"url": "https://prod-34.eastus.logic.azure.com:443/workflows/cc1c41cefcda4773b17ef1565b6366d3/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OpgAMjs3ObbrlTBIIScvQQY2Lk2onl2nzNnGntTgLGQ",
+					"method": "POST",
+					"body": {
+						"error": "S3 has no data"
 					}
 				}
 			}

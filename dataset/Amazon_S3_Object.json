@@ -17,7 +17,7 @@
 				"firstRowAsHeader": false
 			},
 			"key": "s3-comma-seperated.csv",
-			"bucketName": "jkw-data-factory-demox"
+			"bucketName": "jkw-data-factory-demo"
 		}
 	}
 }
