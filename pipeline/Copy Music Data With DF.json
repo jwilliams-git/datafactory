@@ -72,7 +72,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Lookup Data",
+						"activity": "Copy Data To Blob JSON",
 						"dependencyConditions": [
 							"Succeeded"
 						]
