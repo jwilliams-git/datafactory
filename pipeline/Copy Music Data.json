@@ -1,66 +1,7 @@
 {
-	"name": "Copy Data",
+	"name": "Copy Music Data",
 	"properties": {
 		"activities": [
-			{
-				"name": "For Each File",
-				"type": "ForEach",
-				"dependsOn": [
-					{
-						"activity": "If Data Exists",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"typeProperties": {
-					"items": {
-						"value": "@array(activity('Lookup Files').output)",
-						"type": "Expression"
-					},
-					"activities": [
-						{
-							"name": "Copy Files",
-							"type": "Copy",
-							"policy": {
-								"timeout": "7.00:00:00",
-								"retry": 0,
-								"retryIntervalInSeconds": 30,
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"typeProperties": {
-								"source": {
-									"type": "FileSystemSource",
-									"recursive": true
-								},
-								"sink": {
-									"type": "BlobSink"
-								},
-								"enableStaging": false
-							},
-							"inputs": [
-								{
-									"referenceName": "Local_File_System",
-									"type": "DatasetReference",
-									"parameters": {
-										"fileName": {
-											"value": "@activity('Lookup Files').output",
-											"type": "Expression"
-										}
-									}
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "Azure_Demo_Blob_Storage",
-									"type": "DatasetReference"
-								}
-							]
-						}
-					]
-				}
-			},
 			{
 				"name": "Lookup Data",
 				"type": "Lookup",
@@ -84,8 +25,8 @@
 				}
 			},
 			{
-				"name": "If Data Exists",
-				"type": "IfCondition",
+				"name": "Copy Data1",
+				"type": "Copy",
 				"dependsOn": [
 					{
 						"activity": "Lookup Data",
@@ -94,12 +35,36 @@
 						]
 					}
 				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
 				"typeProperties": {
-					"expression": {
-						"value": "@length(activity('Lookup Data').output.firstRow)",
-						"type": "Expression"
+					"source": {
+						"type": "AzureTableSource",
+						"azureTableSourceQuery": "Processed eq false",
+						"azureTableSourceIgnoreTableNotFound": false
+					},
+					"sink": {
+						"type": "BlobSink"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "Data_Factory_Demo_Data_Set",
+						"type": "DatasetReference"
 					}
-				}
+				],
+				"outputs": [
+					{
+						"referenceName": "AzureBlob",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"folder": {
