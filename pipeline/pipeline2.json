@@ -7,7 +7,7 @@
 				"type": "Validation",
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "AmazonS3Object1",
+						"referenceName": "Amazon_S3_Object",
 						"type": "DatasetReference"
 					},
 					"timeout": "0.00:01:00",
@@ -44,7 +44,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AmazonS3Object1",
+						"referenceName": "Amazon_S3_Object",
 						"type": "DatasetReference"
 					}
 				],
@@ -79,7 +79,7 @@
 						"recursive": true
 					},
 					"dataset": {
-						"referenceName": "AmazonS3Object1",
+						"referenceName": "Amazon_S3_Object",
 						"type": "DatasetReference"
 					}
 				}

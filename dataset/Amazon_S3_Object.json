@@ -1,5 +1,5 @@
 {
-	"name": "AmazonS3Object1",
+	"name": "Amazon_S3_Object",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AmazonS31",
@@ -17,7 +17,7 @@
 				"firstRowAsHeader": false
 			},
 			"key": "s3-comma-seperated.csv",
-			"bucketName": "jkw-data-factory-demo"
+			"bucketName": "jkw-data-factory-demox"
 		}
 	}
 }
