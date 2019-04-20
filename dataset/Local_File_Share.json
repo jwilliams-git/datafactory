@@ -17,7 +17,7 @@
 				"firstRowAsHeader": true
 			},
 			"fileName": {
-				"value": "@concat(utcnow(),'.csv')",
+				"value": "@concat('S3_',formatDateTime(utcnow(),'yyyyMMddhhmmss'),'.csv')",
 				"type": "Expression"
 			},
 			"folderPath": {
