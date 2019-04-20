@@ -70,6 +70,14 @@
 			{
 				"name": "Copy Data To Blob CSV",
 				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Lookup Data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
