@@ -1,0 +1,13 @@
+{
+	"name": "Raw_Yelp_Data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureSqlTable",
+		"typeProperties": {
+			"tableName": "[dbo].[YelpRawData]"
+		}
+	}
+}
