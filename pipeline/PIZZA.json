@@ -1,0 +1,86 @@
+{
+	"name": "PIZZA",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get Yelp Data 1",
+				"type": "WebActivity",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"url": "https://api.yelp.com/v3/businesses/search?location=Pittsburgh, PA&radius=40000&sort_by=rating&categories=@pipeline().parameter.Category",
+					"method": "GET",
+					"headers": {
+						"Authorization": "Bearer Plcw1tCLJR0HOzVRzv6JRJ8jbJMFUXNjt7aA11pXsI-xSw_kcbSSUiJMobsOOrQvlKCqPmlP2DpasIeGptmO7b1IkU3l0ERDD1PY3jsy1z6-AMjuKgxbLslZ0c-8XHYx"
+					}
+				}
+			},
+			{
+				"name": "Get Yelp Data 2",
+				"type": "WebActivity",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"url": "https://api.yelp.com/v3/businesses/search?location=Pittsburgh, PA&radius=40000&sort_by=rating&categories=@pipeline().parameter.Category",
+					"method": "GET",
+					"headers": {
+						"Authorization": "Bearer Plcw1tCLJR0HOzVRzv6JRJ8jbJMFUXNjt7aA11pXsI-xSw_kcbSSUiJMobsOOrQvlKCqPmlP2DpasIeGptmO7b1IkU3l0ERDD1PY3jsy1z6-AMjuKgxbLslZ0c-8XHYx"
+					}
+				}
+			},
+			{
+				"name": "Copy Data1",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Get Yelp Data 1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Get Yelp Data 2",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "Get_Yelp_Data_1",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"Category": {
+				"type": "string"
+			}
+		}
+	}
+}

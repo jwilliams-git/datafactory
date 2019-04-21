@@ -1,0 +1,24 @@
+{
+	"name": "Get_Yelp_Data_1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "HttpServer1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Category": {
+				"type": "string"
+			}
+		},
+		"type": "HttpFile",
+		"typeProperties": {
+			"format": {
+				"type": "JsonFormat",
+				"filePattern": "setOfObjects"
+			},
+			"relativeUrl": "?location=Pittsburgh, PA&radius=40000&sort_by=rating&categories=@pipeline().parameters.Category",
+			"requestMethod": "GET",
+			"additionalHeaders": "Authorization: Bearer Plcw1tCLJR0HOzVRzv6JRJ8jbJMFUXNjt7aA11pXsI-xSw_kcbSSUiJMobsOOrQvlKCqPmlP2DpasIeGptmO7b1IkU3l0ERDD1PY3jsy1z6-AMjuKgxbLslZ0c-8XHYx"
+		}
+	}
+}
