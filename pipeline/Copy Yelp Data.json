@@ -21,7 +21,16 @@
 						"type": "SqlSink",
 						"writeBatchSize": 10000
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"businesses": "Id",
+							"total": "YelpId",
+							"region.center.longitude": "Name",
+							"region.center.latitude": "ReviewCount"
+						}
+					}
 				},
 				"inputs": [
 					{

@@ -11,10 +11,135 @@
 			}
 		},
 		"type": "HttpFile",
+		"structure": [
+			{
+				"name": "id",
+				"type": "String"
+			},
+			{
+				"name": "alias",
+				"type": "String"
+			},
+			{
+				"name": "name",
+				"type": "String"
+			},
+			{
+				"name": "image_url",
+				"type": "String"
+			},
+			{
+				"name": "is_closed",
+				"type": "Boolean"
+			},
+			{
+				"name": "url",
+				"type": "String"
+			},
+			{
+				"name": "review_count",
+				"type": "Int64"
+			},
+			{
+				"name": "categories",
+				"type": "String"
+			},
+			{
+				"name": "rating",
+				"type": "Double"
+			},
+			{
+				"name": "latitude",
+				"type": "Double"
+			},
+			{
+				"name": "longitude",
+				"type": "Double"
+			},
+			{
+				"name": "transactions",
+				"type": "String"
+			},
+			{
+				"name": "price",
+				"type": "String"
+			},
+			{
+				"name": "address1",
+				"type": "String"
+			},
+			{
+				"name": "address2",
+				"type": "String"
+			},
+			{
+				"name": "address3",
+				"type": "String"
+			},
+			{
+				"name": "city",
+				"type": "String"
+			},
+			{
+				"name": "zip_code",
+				"type": "String"
+			},
+			{
+				"name": "country",
+				"type": "String"
+			},
+			{
+				"name": "state",
+				"type": "String"
+			},
+			{
+				"name": "display_address",
+				"type": "String"
+			},
+			{
+				"name": "phone",
+				"type": "String"
+			},
+			{
+				"name": "display_phone",
+				"type": "String"
+			},
+			{
+				"name": "distance",
+				"type": "Double"
+			}
+		],
 		"typeProperties": {
 			"format": {
 				"type": "JsonFormat",
-				"filePattern": "setOfObjects"
+				"filePattern": "setOfObjects",
+				"jsonNodeReference": "$.['businesses']",
+				"jsonPathDefinition": {
+					"id": "['id']",
+					"alias": "['alias']",
+					"name": "['name']",
+					"image_url": "['image_url']",
+					"is_closed": "['is_closed']",
+					"url": "['url']",
+					"review_count": "['review_count']",
+					"categories": "['categories']",
+					"rating": "['rating']",
+					"latitude": "['coordinates']['latitude']",
+					"longitude": "['coordinates']['longitude']",
+					"transactions": "['transactions']",
+					"price": "['price']",
+					"address1": "['location']['address1']",
+					"address2": "['location']['address2']",
+					"address3": "['location']['address3']",
+					"city": "['location']['city']",
+					"zip_code": "['location']['zip_code']",
+					"country": "['location']['country']",
+					"state": "['location']['state']",
+					"display_address": "['location']['display_address']",
+					"phone": "['phone']",
+					"display_phone": "['display_phone']",
+					"distance": "['distance']"
+				}
 			},
 			"relativeUrl": "?location=Pittsburgh, PA&radius=40000&sort_by=rating&categories=@pipeline().parameters.Category",
 			"requestMethod": "GET",
