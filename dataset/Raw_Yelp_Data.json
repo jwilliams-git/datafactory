@@ -8,10 +8,6 @@
 		"type": "AzureSqlTable",
 		"structure": [
 			{
-				"name": "Id",
-				"type": "Int32"
-			},
-			{
 				"name": "YelpId",
 				"type": "String"
 			},

@@ -25,10 +25,11 @@
 					"translator": {
 						"type": "TabularTranslator",
 						"columnMappings": {
-							"businesses": "Id",
-							"total": "YelpId",
-							"region.center.longitude": "Name",
-							"region.center.latitude": "ReviewCount"
+							"id": "YelpId",
+							"name": "Name",
+							"review_count": "ReviewCount",
+							"rating": "Rating",
+							"categories": "Category"
 						}
 					}
 				},
