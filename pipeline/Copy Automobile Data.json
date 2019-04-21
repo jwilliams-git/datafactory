@@ -15,7 +15,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureTableSource",
-						"azureTableSourceQuery": "Processed eq false",
+						"azureTableSourceQuery": {
+							"value": "@concat('TimeStamp gt ', formatDateTime(adddays(utcnow(),-30)))",
+							"type": "Expression"
+						},
 						"azureTableSourceIgnoreTableNotFound": false
 					},
 					"dataset": {
