@@ -17,25 +17,64 @@
 		"AzureTableStorage1_connectionString": {
 			"value": ""
 		},
+		"Demo Blob Storage_connectionString": {
+			"value": ""
+		},
 		"SqlServer1_connectionString": {
 			"value": ""
 		},
 		"SqlServer1_password": {
 			"value": ""
 		},
+		"azure_function_hello_linked_service_functionKey": {
+			"value": ""
+		},
 		"linkedService1_password": {
 			"value": ""
 		},
+		"local_machine_linked_sevice_password": {
+			"value": ""
+		},
 		"AzureBlob_properties_typeProperties_fileName": {
-			"value": "cars.csv"
+			"value": ""
 		},
 		"AzureBlob_properties_typeProperties_folderPath": {
-			"value": "test"
+			"value": "files"
 		},
-		"FileShare1_properties_typeProperties_fileName": {
-			"value": "ADF.png"
+		"AzureBlob1_properties_typeProperties_fileName": {
+			"value": ""
 		},
-		"FileShare1_properties_typeProperties_folderPath": {
+		"AzureBlob1_properties_typeProperties_folderPath": {
+			"value": "files"
+		},
+		"AzureBlob2_properties_typeProperties_fileName": {
+			"value": ""
+		},
+		"AzureBlob2_properties_typeProperties_folderPath": {
+			"value": "files"
+		},
+		"Azure_Blob_CSV_properties_typeProperties_fileName": {
+			"value": "forUpdate.csv"
+		},
+		"Azure_Blob_CSV_properties_typeProperties_folderPath": {
+			"value": "files"
+		},
+		"Azure_Demo_Blob_Storage_properties_typeProperties_fileName": {
+			"value": ""
+		},
+		"Azure_Demo_Blob_Storage_properties_typeProperties_folderPath": {
+			"value": "files"
+		},
+		"Local_File_Share_properties_typeProperties_fileName": {
+			"value": "@concat('S3_',formatDateTime(utcnow(),'yyyyMMddhhmmss'),'.csv')"
+		},
+		"Local_File_Share_properties_typeProperties_folderPath": {
+			"value": "files"
+		},
+		"Local_File_System_properties_typeProperties_fileName": {
+			"value": "@dataset().fileName"
+		},
+		"Local_File_System_properties_typeProperties_folderPath": {
 			"value": ""
 		},
 		"AmazonS31_properties_typeProperties_accessKeyId": {
@@ -48,6 +87,9 @@
 			"value": "https://www.w3schools.com/html/tryit.asp?filename=tryhtml_table_intro"
 		},
 		"linkedService1_properties_typeProperties_userId": {
+			"value": "jwilliams@ceiamerica.com"
+		},
+		"local_machine_linked_sevice_properties_typeProperties_userId": {
 			"value": "jwilliams@ceiamerica.com"
 		},
 		"Blob Event_properties_typeProperties_scope": {

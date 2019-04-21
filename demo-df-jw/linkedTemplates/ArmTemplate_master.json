@@ -23,6 +23,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureTableStorage1'"
 		},
+		"Demo Blob Storage_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Demo Blob Storage'"
+		},
 		"SqlServer1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'SqlServer1'"
@@ -31,23 +35,71 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer1'"
 		},
+		"azure_function_hello_linked_service_functionKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'functionKey' of 'azure_function_hello_linked_service'"
+		},
 		"linkedService1_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'linkedService1'"
 		},
+		"local_machine_linked_sevice_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'local_machine_linked_sevice'"
+		},
 		"AzureBlob_properties_typeProperties_fileName": {
 			"type": "string",
-			"defaultValue": "cars.csv"
+			"defaultValue": ""
 		},
 		"AzureBlob_properties_typeProperties_folderPath": {
 			"type": "string",
-			"defaultValue": "test"
+			"defaultValue": "files"
 		},
-		"FileShare1_properties_typeProperties_fileName": {
+		"AzureBlob1_properties_typeProperties_fileName": {
 			"type": "string",
-			"defaultValue": "ADF.png"
+			"defaultValue": ""
 		},
-		"FileShare1_properties_typeProperties_folderPath": {
+		"AzureBlob1_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "files"
+		},
+		"AzureBlob2_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": ""
+		},
+		"AzureBlob2_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "files"
+		},
+		"Azure_Blob_CSV_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "forUpdate.csv"
+		},
+		"Azure_Blob_CSV_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "files"
+		},
+		"Azure_Demo_Blob_Storage_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": ""
+		},
+		"Azure_Demo_Blob_Storage_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "files"
+		},
+		"Local_File_Share_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@concat('S3_',formatDateTime(utcnow(),'yyyyMMddhhmmss'),'.csv')"
+		},
+		"Local_File_Share_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "files"
+		},
+		"Local_File_System_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@dataset().fileName"
+		},
+		"Local_File_System_properties_typeProperties_folderPath": {
 			"type": "string",
 			"defaultValue": ""
 		},
@@ -64,6 +116,10 @@
 			"defaultValue": "https://www.w3schools.com/html/tryit.asp?filename=tryhtml_table_intro"
 		},
 		"linkedService1_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "jwilliams@ceiamerica.com"
+		},
+		"local_machine_linked_sevice_properties_typeProperties_userId": {
 			"type": "string",
 			"defaultValue": "jwilliams@ceiamerica.com"
 		},
@@ -110,14 +166,11 @@
 					"AzureTableStorage1_connectionString": {
 						"value": "[parameters('AzureTableStorage1_connectionString')]"
 					},
-					"SqlServer1_connectionString": {
-						"value": "[parameters('SqlServer1_connectionString')]"
+					"Demo Blob Storage_connectionString": {
+						"value": "[parameters('Demo Blob Storage_connectionString')]"
 					},
-					"SqlServer1_password": {
-						"value": "[parameters('SqlServer1_password')]"
-					},
-					"linkedService1_password": {
-						"value": "[parameters('linkedService1_password')]"
+					"azure_function_hello_linked_service_functionKey": {
+						"value": "[parameters('azure_function_hello_linked_service_functionKey')]"
 					},
 					"AmazonS31_properties_typeProperties_accessKeyId": {
 						"value": "[parameters('AmazonS31_properties_typeProperties_accessKeyId')]"
@@ -131,20 +184,29 @@
 					"AzureBlob_properties_typeProperties_folderPath": {
 						"value": "[parameters('AzureBlob_properties_typeProperties_folderPath')]"
 					},
-					"SqlServer1_properties_typeProperties_userName": {
-						"value": "[parameters('SqlServer1_properties_typeProperties_userName')]"
+					"AzureBlob1_properties_typeProperties_fileName": {
+						"value": "[parameters('AzureBlob1_properties_typeProperties_fileName')]"
 					},
-					"Web1_properties_typeProperties_url": {
-						"value": "[parameters('Web1_properties_typeProperties_url')]"
+					"AzureBlob1_properties_typeProperties_folderPath": {
+						"value": "[parameters('AzureBlob1_properties_typeProperties_folderPath')]"
 					},
-					"linkedService1_properties_typeProperties_userId": {
-						"value": "[parameters('linkedService1_properties_typeProperties_userId')]"
+					"AzureBlob2_properties_typeProperties_fileName": {
+						"value": "[parameters('AzureBlob2_properties_typeProperties_fileName')]"
 					},
-					"FileShare1_properties_typeProperties_fileName": {
-						"value": "[parameters('FileShare1_properties_typeProperties_fileName')]"
+					"AzureBlob2_properties_typeProperties_folderPath": {
+						"value": "[parameters('AzureBlob2_properties_typeProperties_folderPath')]"
 					},
-					"FileShare1_properties_typeProperties_folderPath": {
-						"value": "[parameters('FileShare1_properties_typeProperties_folderPath')]"
+					"Azure_Blob_CSV_properties_typeProperties_fileName": {
+						"value": "[parameters('Azure_Blob_CSV_properties_typeProperties_fileName')]"
+					},
+					"Azure_Blob_CSV_properties_typeProperties_folderPath": {
+						"value": "[parameters('Azure_Blob_CSV_properties_typeProperties_folderPath')]"
+					},
+					"Azure_Demo_Blob_Storage_properties_typeProperties_fileName": {
+						"value": "[parameters('Azure_Demo_Blob_Storage_properties_typeProperties_fileName')]"
+					},
+					"Azure_Demo_Blob_Storage_properties_typeProperties_folderPath": {
+						"value": "[parameters('Azure_Demo_Blob_Storage_properties_typeProperties_folderPath')]"
 					}
 				}
 			},
@@ -163,6 +225,42 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"SqlServer1_connectionString": {
+						"value": "[parameters('SqlServer1_connectionString')]"
+					},
+					"SqlServer1_password": {
+						"value": "[parameters('SqlServer1_password')]"
+					},
+					"linkedService1_password": {
+						"value": "[parameters('linkedService1_password')]"
+					},
+					"local_machine_linked_sevice_password": {
+						"value": "[parameters('local_machine_linked_sevice_password')]"
+					},
+					"SqlServer1_properties_typeProperties_userName": {
+						"value": "[parameters('SqlServer1_properties_typeProperties_userName')]"
+					},
+					"Web1_properties_typeProperties_url": {
+						"value": "[parameters('Web1_properties_typeProperties_url')]"
+					},
+					"linkedService1_properties_typeProperties_userId": {
+						"value": "[parameters('linkedService1_properties_typeProperties_userId')]"
+					},
+					"local_machine_linked_sevice_properties_typeProperties_userId": {
+						"value": "[parameters('local_machine_linked_sevice_properties_typeProperties_userId')]"
+					},
+					"Local_File_Share_properties_typeProperties_fileName": {
+						"value": "[parameters('Local_File_Share_properties_typeProperties_fileName')]"
+					},
+					"Local_File_Share_properties_typeProperties_folderPath": {
+						"value": "[parameters('Local_File_Share_properties_typeProperties_folderPath')]"
+					},
+					"Local_File_System_properties_typeProperties_fileName": {
+						"value": "[parameters('Local_File_System_properties_typeProperties_fileName')]"
+					},
+					"Local_File_System_properties_typeProperties_folderPath": {
+						"value": "[parameters('Local_File_System_properties_typeProperties_folderPath')]"
 					}
 				}
 			},
