@@ -141,7 +141,7 @@
 					"distance": "['distance']"
 				}
 			},
-			"relativeUrl": "?location=Pittsburgh, PA&radius=40000&sort_by=rating&categories=@pipeline().parameters.Category",
+			"relativeUrl": "?location=Pittsburgh, PA&radius=40000&sort_by=rating&limit=50&categories=@pipeline().parameters.Category",
 			"requestMethod": "GET",
 			"additionalHeaders": "Authorization: Bearer Plcw1tCLJR0HOzVRzv6JRJ8jbJMFUXNjt7aA11pXsI-xSw_kcbSSUiJMobsOOrQvlKCqPmlP2DpasIeGptmO7b1IkU3l0ERDD1PY3jsy1z6-AMjuKgxbLslZ0c-8XHYx"
 		}
