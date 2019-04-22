@@ -30,7 +30,8 @@
 							"review_count": "ReviewCount",
 							"rating": "Rating",
 							"categories": "Category",
-							"city": "SearchLocation"
+							"city": "SearchLocationCity",
+							"state": "SearchLocationState"
 						}
 					}
 				},

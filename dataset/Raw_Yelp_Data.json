@@ -28,7 +28,11 @@
 				"type": "String"
 			},
 			{
-				"name": "SearchLocation",
+				"name": "SearchLocationCity",
+				"type": "String"
+			},
+			{
+				"name": "SearchLocationState",
 				"type": "String"
 			}
 		],
