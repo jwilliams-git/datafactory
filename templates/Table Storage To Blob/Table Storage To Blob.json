@@ -109,7 +109,7 @@
 				},
 				"type": "AzureTable",
 				"typeProperties": {
-					"tableName": "dataFactoryDemo"
+					"tableName": "music"
 				}
 			}
 		},
