@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable1",
+						"referenceName": "Raw_Yelp_Data_old",
 						"type": "DatasetReference"
 					},
 					"name": "source1",

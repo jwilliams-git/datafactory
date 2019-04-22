@@ -47,7 +47,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Raw_Yelp_Data",
+						"referenceName": "Raw_Yelp_Data_old",
 						"type": "DatasetReference"
 					}
 				]
@@ -87,7 +87,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Raw_Yelp_Data",
+						"referenceName": "Raw_Yelp_Data_old",
 						"type": "DatasetReference"
 					}
 				]

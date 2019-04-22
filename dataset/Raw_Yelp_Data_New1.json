@@ -1,31 +1,39 @@
 {
-	"name": "Raw_Yelp_Data_old",
+	"name": "Raw_Yelp_Data_New1",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabase1",
 			"type": "LinkedServiceReference"
 		},
 		"type": "AzureSqlTable",
-		"structure": [
+		"schema": [
+			{
+				"name": "Id",
+				"type": "int",
+				"precision": 10
+			},
 			{
 				"name": "YelpId",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "Name",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "ReviewCount",
-				"type": "Int32"
+				"type": "int",
+				"precision": 10
 			},
 			{
 				"name": "Rating",
-				"type": "Decimal"
+				"type": "decimal",
+				"precision": 3,
+				"scale": 2
 			},
 			{
 				"name": "Category",
-				"type": "String"
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {
