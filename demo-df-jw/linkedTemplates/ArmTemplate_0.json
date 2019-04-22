@@ -19,6 +19,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'functionKey' of 'AzureFunction1'"
 		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
 		"AzureTableStorage1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureTableStorage1'"
@@ -34,6 +38,10 @@
 		"AmazonS31_properties_typeProperties_accessKeyId": {
 			"type": "string",
 			"defaultValue": "AKIAWL3CELZZSYVHJVWQ"
+		},
+		"HttpServer1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://api.yelp.com/v3/businesses/search"
 		},
 		"Blob Event_properties_typeProperties_scope": {
 			"type": "string",
@@ -60,22 +68,6 @@
 			"defaultValue": ""
 		},
 		"AzureBlob2_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "files"
-		},
-		"Azure_Blob_CSV_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "forUpdate.csv"
-		},
-		"Azure_Blob_CSV_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "files"
-		},
-		"Azure_Demo_Blob_Storage_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": ""
-		},
-		"Azure_Demo_Blob_Storage_properties_typeProperties_folderPath": {
 			"type": "string",
 			"defaultValue": "files"
 		}
@@ -105,9 +97,7 @@
 						"typeProperties": {
 							"url": "https://demo-comsumption.azure-api.net/demo/hello?subscription-key=3b0586e1b103455887e7b54f73f26fdb",
 							"method": "GET",
-							"headers": {},
-							"linkedServices": [],
-							"datasets": []
+							"headers": {}
 						}
 					}
 				],
@@ -167,6 +157,19 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureSqlDatabase1_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureTableStorage1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -188,6 +191,21 @@
 				"type": "AzureBlobStorage",
 				"typeProperties": {
 					"connectionString": "[parameters('Demo Blob Storage_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/HttpServer1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('HttpServer1_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
 				}
 			},
 			"dependsOn": []
@@ -290,15 +308,6 @@
 			"properties": {
 				"type": "SelfHosted",
 				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": []
 			},
 			"dependsOn": []
 		},
@@ -442,6 +451,55 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "YelpId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ReviewCount",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Rating",
+						"type": "decimal",
+						"precision": 3,
+						"scale": 2
+					},
+					{
+						"name": "Category",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "[concat('[', 'dbo].[YelpRawData]')]"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureTable1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -458,55 +516,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureTableStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Azure_Blob_CSV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Demo Blob Storage",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureBlob",
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"nullValue": "\\N",
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"fileName": "[parameters('Azure_Blob_CSV_properties_typeProperties_fileName')]",
-					"folderPath": "[parameters('Azure_Blob_CSV_properties_typeProperties_folderPath')]"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Demo Blob Storage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Azure_Demo_Blob_Storage')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Demo Blob Storage",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureBlob",
-				"typeProperties": {
-					"fileName": "[parameters('Azure_Demo_Blob_Storage_properties_typeProperties_fileName')]",
-					"folderPath": "[parameters('Azure_Demo_Blob_Storage_properties_typeProperties_folderPath')]"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Demo Blob Storage')]"
 			]
 		}
 	]

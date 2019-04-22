@@ -19,6 +19,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'functionKey' of 'AzureFunction1'"
 		},
+		"AzureSqlDatabase1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureSqlDatabase1'"
+		},
 		"AzureTableStorage1_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureTableStorage1'"
@@ -107,6 +111,10 @@
 			"type": "string",
 			"defaultValue": "AKIAWL3CELZZSYVHJVWQ"
 		},
+		"HttpServer1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://api.yelp.com/v3/businesses/search"
+		},
 		"SqlServer1_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "CEI.DOMAIN\\jwilliams"
@@ -163,6 +171,9 @@
 					"AzureFunction1_functionKey": {
 						"value": "[parameters('AzureFunction1_functionKey')]"
 					},
+					"AzureSqlDatabase1_connectionString": {
+						"value": "[parameters('AzureSqlDatabase1_connectionString')]"
+					},
 					"AzureTableStorage1_connectionString": {
 						"value": "[parameters('AzureTableStorage1_connectionString')]"
 					},
@@ -174,6 +185,9 @@
 					},
 					"AmazonS31_properties_typeProperties_accessKeyId": {
 						"value": "[parameters('AmazonS31_properties_typeProperties_accessKeyId')]"
+					},
+					"HttpServer1_properties_typeProperties_url": {
+						"value": "[parameters('HttpServer1_properties_typeProperties_url')]"
 					},
 					"Blob Event_properties_typeProperties_scope": {
 						"value": "[parameters('Blob Event_properties_typeProperties_scope')]"
@@ -195,18 +209,6 @@
 					},
 					"AzureBlob2_properties_typeProperties_folderPath": {
 						"value": "[parameters('AzureBlob2_properties_typeProperties_folderPath')]"
-					},
-					"Azure_Blob_CSV_properties_typeProperties_fileName": {
-						"value": "[parameters('Azure_Blob_CSV_properties_typeProperties_fileName')]"
-					},
-					"Azure_Blob_CSV_properties_typeProperties_folderPath": {
-						"value": "[parameters('Azure_Blob_CSV_properties_typeProperties_folderPath')]"
-					},
-					"Azure_Demo_Blob_Storage_properties_typeProperties_fileName": {
-						"value": "[parameters('Azure_Demo_Blob_Storage_properties_typeProperties_fileName')]"
-					},
-					"Azure_Demo_Blob_Storage_properties_typeProperties_folderPath": {
-						"value": "[parameters('Azure_Demo_Blob_Storage_properties_typeProperties_folderPath')]"
 					}
 				}
 			},
@@ -237,6 +239,18 @@
 					},
 					"local_machine_linked_sevice_password": {
 						"value": "[parameters('local_machine_linked_sevice_password')]"
+					},
+					"Azure_Blob_CSV_properties_typeProperties_fileName": {
+						"value": "[parameters('Azure_Blob_CSV_properties_typeProperties_fileName')]"
+					},
+					"Azure_Blob_CSV_properties_typeProperties_folderPath": {
+						"value": "[parameters('Azure_Blob_CSV_properties_typeProperties_folderPath')]"
+					},
+					"Azure_Demo_Blob_Storage_properties_typeProperties_fileName": {
+						"value": "[parameters('Azure_Demo_Blob_Storage_properties_typeProperties_fileName')]"
+					},
+					"Azure_Demo_Blob_Storage_properties_typeProperties_folderPath": {
+						"value": "[parameters('Azure_Demo_Blob_Storage_properties_typeProperties_folderPath')]"
 					},
 					"SqlServer1_properties_typeProperties_userName": {
 						"value": "[parameters('SqlServer1_properties_typeProperties_userName')]"
