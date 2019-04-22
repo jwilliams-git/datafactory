@@ -1,0 +1,115 @@
+{
+	"name": "Copy Yelp Dataff570792-b50d-4066-aa46-e5190c53243d",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy Yelp Data 1",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"id": "YelpId",
+							"name": "Name",
+							"review_count": "ReviewCount",
+							"rating": "Rating",
+							"categories": "Category"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Get_Yelp_Data_1",
+						"type": "DatasetReference",
+						"parameters": {
+							"Category": {
+								"value": "@pipeline().parameters.Category1",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Raw_Yelp_Data",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy Yelp Data 2",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"id": "YelpId",
+							"name": "Name",
+							"review_count": "ReviewCount",
+							"rating": "Rating",
+							"categories": "Category"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "Get_Yelp_Data_1",
+						"type": "DatasetReference",
+						"parameters": {
+							"Category": {
+								"value": "@pipeline().parameters.Category2",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Raw_Yelp_Data",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"parameters": {
+			"Category1": {
+				"type": "string"
+			},
+			"Category2": {
+				"type": "string"
+			}
+		}
+	}
+}
