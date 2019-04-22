@@ -47,7 +47,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Raw_Yelp_Data_old",
+						"referenceName": "AzureSqlTable2",
 						"type": "DatasetReference"
 					}
 				]
@@ -87,7 +87,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Raw_Yelp_Data_old",
+						"referenceName": "Raw_Yelp_Data",
 						"type": "DatasetReference"
 					}
 				]

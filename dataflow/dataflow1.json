@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "Raw_Yelp_Data_old",
+						"referenceName": "Raw_Yelp_Data",
 						"type": "DatasetReference"
 					},
 					"name": "source1",

@@ -1,5 +1,5 @@
 {
-	"name": "Raw_Yelp_Data_old",
+	"name": "Raw_Yelp_Data",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabase1",
