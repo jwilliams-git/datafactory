@@ -12,6 +12,22 @@
 					"name": "RawYelpData",
 					"script": "source(output(\n\t\tId as integer,\n\t\tYelpId as string,\n\t\tName as string,\n\t\tReviewCount as integer,\n\t\tRating as decimal(3,2),\n\t\tCategory as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table') ~> RawYelpData"
 				}
+			],
+			"sinks": [
+				{
+					"name": "sink1",
+					"script": "AggregateReviewCountByRating sink() ~> sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "FilterByReviewCount",
+					"script": "RawYelpData filter(greaterOrEqual(ReviewCount,100)) ~> FilterByReviewCount"
+				},
+				{
+					"name": "AggregateReviewCountByRating",
+					"script": "FilterByReviewCount aggregate(groupBy(Rating),\n\tReviewCount = round(avg(ReviewCount),2)) ~> AggregateReviewCountByRating"
+				}
 			]
 		}
 	}

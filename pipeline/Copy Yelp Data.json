@@ -29,7 +29,8 @@
 							"name": "Name",
 							"review_count": "ReviewCount",
 							"rating": "Rating",
-							"categories": "Category"
+							"categories": "Category",
+							"city": "SearchLocation"
 						}
 					}
 				},
@@ -47,7 +48,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureSqlTable2",
+						"referenceName": "Raw_Yelp_Data",
 						"type": "DatasetReference"
 					}
 				]
@@ -71,7 +72,18 @@
 						"type": "SqlSink",
 						"writeBatchSize": 10000
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"id": "YelpId",
+							"name": "Name",
+							"review_count": "ReviewCount",
+							"rating": "Rating",
+							"categories": "Category",
+							"city": "SearchLocation"
+						}
+					}
 				},
 				"inputs": [
 					{
