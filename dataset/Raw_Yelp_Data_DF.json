@@ -34,6 +34,14 @@
 			{
 				"name": "Category",
 				"type": "nvarchar"
+			},
+			{
+				"name": "SearchLocationCity",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SearchLocationState",
+				"type": "char"
 			}
 		],
 		"typeProperties": {

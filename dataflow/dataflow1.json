@@ -10,7 +10,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "RawYelpData",
-					"script": "source(output(\n\t\tId as integer,\n\t\tYelpId as string,\n\t\tName as string,\n\t\tReviewCount as integer,\n\t\tRating as decimal(3,2),\n\t\tCategory as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table') ~> RawYelpData"
+					"script": "source(output(\n\t\tId as integer,\n\t\tYelpId as string,\n\t\tName as string,\n\t\tReviewCount as integer,\n\t\tRating as decimal(3,2),\n\t\tCategory as string,\n\t\tSearchLocationCity as string,\n\t\tSearchLocationState as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table') ~> RawYelpData"
 				}
 			],
 			"sinks": [
