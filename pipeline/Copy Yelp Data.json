@@ -149,6 +149,9 @@
 			"Category2": {
 				"type": "string"
 			}
+		},
+		"folder": {
+			"name": "Activities"
 		}
 	}
 }
