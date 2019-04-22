@@ -1,0 +1,29 @@
+{
+	"name": "Raw_Yelp_Data_DF_Aggregate",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RatingWithLocation",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ReviewCount",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"tableName": "[dbo].[YelpAggregateData]"
+		}
+	}
+}
