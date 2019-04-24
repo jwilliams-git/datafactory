@@ -19,8 +19,8 @@
 						"referenceName": "Raw_Yelp_Data_DF_Aggregate",
 						"type": "DatasetReference"
 					},
-					"name": "sink1",
-					"script": "AggregateReviewCountByRating sink(input(\n\t\tid as integer,\n\t\tRatingWithLocation as string,\n\t\tReviewCount as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['RatingWithLocation'],\n\tmapColumn(\n\t\tRatingWithLocation,\n\t\tReviewCount\n\t)) ~> sink1"
+					"name": "SinkToSQL",
+					"script": "AggregateReviewCountByRating sink(input(\n\t\tid as integer,\n\t\tRatingWithLocation as string,\n\t\tReviewCount as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['RatingWithLocation'],\n\tmapColumn(\n\t\tRatingWithLocation,\n\t\tReviewCount\n\t)) ~> SinkToSQL"
 				}
 			],
 			"transformations": [
