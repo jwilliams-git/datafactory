@@ -16,7 +16,7 @@
 					"source": {
 						"type": "AzureTableSource",
 						"azureTableSourceQuery": {
-							"value": "@concat('TimeStamp gt ', formatDateTime(adddays(utcnow(),-30)))",
+							"value": "@concat('Timestamp gt ''', formatDateTime(adddays(utcnow(),-30)),'''')",
 							"type": "Expression"
 						},
 						"azureTableSourceIgnoreTableNotFound": false
