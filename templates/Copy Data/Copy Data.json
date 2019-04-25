@@ -6,9 +6,6 @@
 			"type": "string",
 			"metadata": "Data Factory Name"
 		},
-		"azure_function_hello_linked_service": {
-			"type": "string"
-		},
 		"AzureTableStorage1": {
 			"type": "string"
 		},
@@ -90,39 +87,6 @@
 								"type": "DatasetReference"
 							}
 						]
-					},
-					{
-						"name": "React To Failure",
-						"type": "AzureFunctionActivity",
-						"dependsOn": [
-							{
-								"activity": "Lookup Data",
-								"dependencyConditions": [
-									"Failed"
-								]
-							},
-							{
-								"activity": "Copy Data To Blob",
-								"dependencyConditions": [
-									"Failed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"typeProperties": {
-							"functionName": "Hello",
-							"method": "POST"
-						},
-						"linkedServiceName": {
-							"referenceName": "[parameters('azure_function_hello_linked_service')]",
-							"type": "LinkedServiceReference"
-						}
 					}
 				],
 				"folder": {
@@ -145,7 +109,7 @@
 				},
 				"type": "AzureTable",
 				"typeProperties": {
-					"tableName": "dataFactoryDemo"
+					"tableName": "music"
 				}
 			}
 		},
