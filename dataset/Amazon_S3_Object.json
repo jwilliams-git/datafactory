@@ -16,7 +16,7 @@
 				"skipLineCount": 0,
 				"firstRowAsHeader": false
 			},
-			"key": "s3-comma-seperated.csv",
+			"key": "s3-comma-seperated.csvx",
 			"bucketName": "jkw-data-factory-demo"
 		}
 	}
