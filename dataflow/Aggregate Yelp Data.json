@@ -20,7 +20,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "SinkToSQL",
-					"script": "AggregateReviewCountByRating sink(input(\n\t\tid as integer,\n\t\tReviewCount as integer,\n\t\tPrice as string,\n\t\tLocationWithPrice as string,\n\t\tLocationWithPriceCount as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['LocationWithPrice','Price'],\n\tmapColumn(\n\t\tLocationWithPrice = Price,\n\t\tLocationWithPriceCount = Id,\n\t\tReviewCount,\n\t\tPrice\n\t)) ~> SinkToSQL"
+					"script": "AggregateReviewCountByRating sink(input(\n\t\tid as integer,\n\t\tReviewCount as integer,\n\t\tPrice as string,\n\t\tLocation as string,\n\t\tLocationWithPriceCount as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['LocationWithPrice','Price'],\n\tmapColumn(\n\t\tReviewCount,\n\t\tPrice,\n\t\tLocation = SearchLocationCity,\n\t\tLocationWithPriceCount\n\t)) ~> SinkToSQL"
 				}
 			],
 			"transformations": [
@@ -30,7 +30,7 @@
 				},
 				{
 					"name": "AggregateReviewCountByRating",
-					"script": "FilterByReviewCount aggregate(groupBy(Price,\n\t\tSearchLocationCity),\n\tId = count(Id),\n\t\tReviewCount = sum(ReviewCount)) ~> AggregateReviewCountByRating"
+					"script": "FilterByReviewCount aggregate(groupBy(Price,\n\t\tSearchLocationCity),\n\tLocationWithPriceCount = count(Id),\n\t\tReviewCount = sum(ReviewCount)) ~> AggregateReviewCountByRating"
 				}
 			]
 		}
