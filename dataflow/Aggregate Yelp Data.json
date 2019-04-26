@@ -30,7 +30,7 @@
 				},
 				{
 					"name": "AggregateReviewCountByRating",
-					"script": "FilterByReviewCount aggregate(groupBy({Grouped by price, city, and state} = concat(Price,',',SearchLocationCity,',',SearchLocationState)),\n\tId = count(Id)) ~> AggregateReviewCountByRating"
+					"script": "FilterByReviewCount aggregate(groupBy(LocationWithPrice = concat(Price,',',SearchLocationCity,',',SearchLocationState)),\n\tId = count(Id)) ~> AggregateReviewCountByRating"
 				}
 			]
 		}
