@@ -31,7 +31,8 @@
 							"rating": "Rating",
 							"categories": "Category",
 							"city": "SearchLocationCity",
-							"state": "SearchLocationState"
+							"state": "SearchLocationState",
+							"price": "Price"
 						}
 					}
 				},
@@ -87,7 +88,8 @@
 							"rating": "Rating",
 							"categories": "Category",
 							"city": "SearchLocationCity",
-							"state": "SearchLocationState"
+							"state": "SearchLocationState",
+							"price": "Price"
 						}
 					}
 				},

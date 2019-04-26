@@ -34,6 +34,10 @@
 			{
 				"name": "SearchLocationState",
 				"type": "String"
+			},
+			{
+				"name": "Price",
+				"type": "String"
 			}
 		],
 		"typeProperties": {
