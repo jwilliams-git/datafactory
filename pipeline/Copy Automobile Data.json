@@ -16,7 +16,7 @@
 					"source": {
 						"type": "AzureTableSource",
 						"azureTableSourceQuery": {
-							"value": "@concat('Timestamp gt ''', formatDateTime(adddays(utcnow(),-30)),'''')",
+							"value": "@concat('Timestamp gt datetime''', formatDateTime(adddays(utcnow(),-30)),'''')",
 							"type": "Expression"
 						},
 						"azureTableSourceIgnoreTableNotFound": false
@@ -49,7 +49,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureTableSource",
-						"azureTableSourceQuery": "Processed eq false",
+						"azureTableSourceQuery": "@concat('Timestamp gt datetime''', formatDateTime(adddays(utcnow(),-30)),'''')",
 						"azureTableSourceIgnoreTableNotFound": false
 					},
 					"sink": {
