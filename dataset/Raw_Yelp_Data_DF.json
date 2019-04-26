@@ -42,6 +42,10 @@
 			{
 				"name": "SearchLocationState",
 				"type": "char"
+			},
+			{
+				"name": "Price",
+				"type": "varchar"
 			}
 		],
 		"typeProperties": {
