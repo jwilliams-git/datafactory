@@ -271,7 +271,8 @@
 							{
 								"activity": "Copy Data To Blob",
 								"dependencyConditions": [
-									"Failed"
+									"Failed",
+									"Skipped"
 								]
 							}
 						],
