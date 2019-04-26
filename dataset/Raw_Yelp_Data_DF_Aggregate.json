@@ -13,10 +13,6 @@
 				"precision": 10
 			},
 			{
-				"name": "RatingWithLocation",
-				"type": "nvarchar"
-			},
-			{
 				"name": "ReviewCount",
 				"type": "int",
 				"precision": 10
@@ -24,6 +20,10 @@
 			{
 				"name": "Price",
 				"type": "varchar"
+			},
+			{
+				"name": "LocationWithPrice",
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {
