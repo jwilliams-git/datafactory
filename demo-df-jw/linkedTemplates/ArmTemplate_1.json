@@ -329,6 +329,53 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Raw_Yelp_Data')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"structure": [
+					{
+						"name": "YelpId",
+						"type": "String"
+					},
+					{
+						"name": "Name",
+						"type": "String"
+					},
+					{
+						"name": "ReviewCount",
+						"type": "Int32"
+					},
+					{
+						"name": "Rating",
+						"type": "Decimal"
+					},
+					{
+						"name": "Category",
+						"type": "String"
+					},
+					{
+						"name": "SearchLocationCity",
+						"type": "String"
+					},
+					{
+						"name": "SearchLocationState",
+						"type": "String"
+					}
+				],
+				"typeProperties": {
+					"tableName": "[concat('[', 'dbo].[YelpRawData]')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Raw_Yelp_Data_DF')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -384,7 +431,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Raw_Yelp_Data')]",
+			"name": "[concat(parameters('factoryName'), '/Raw_Yelp_Data_DF_Aggregate')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -394,38 +441,24 @@
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"structure": [
+				"schema": [
 					{
-						"name": "YelpId",
-						"type": "String"
+						"name": "id",
+						"type": "int",
+						"precision": 10
 					},
 					{
-						"name": "Name",
-						"type": "String"
+						"name": "RatingWithLocation",
+						"type": "nvarchar"
 					},
 					{
 						"name": "ReviewCount",
-						"type": "Int32"
-					},
-					{
-						"name": "Rating",
-						"type": "Decimal"
-					},
-					{
-						"name": "Category",
-						"type": "String"
-					},
-					{
-						"name": "SearchLocationCity",
-						"type": "String"
-					},
-					{
-						"name": "SearchLocationState",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					}
 				],
 				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[YelpRawData]')]"
+					"tableName": "[concat('[', 'dbo].[YelpAggregateData]')]"
 				}
 			},
 			"dependsOn": []
@@ -515,39 +548,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Raw_Yelp_Data_DF_Aggregate')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "RatingWithLocation",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ReviewCount",
-						"type": "int",
-						"precision": 10
-					}
-				],
-				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[YelpAggregateData]')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Copy Automobile Data')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -569,7 +569,7 @@
 							"source": {
 								"type": "AzureTableSource",
 								"azureTableSourceQuery": {
-									"value": "@concat('TimeStamp gt ', formatDateTime(adddays(utcnow(),-30)))",
+									"value": "@concat('Timestamp gt ''', formatDateTime(adddays(utcnow(),-30)),'''')",
 									"type": "Expression"
 								},
 								"azureTableSourceIgnoreTableNotFound": false
@@ -811,8 +811,8 @@
 								"referenceName": "Raw_Yelp_Data_DF_Aggregate",
 								"type": "DatasetReference"
 							},
-							"name": "sink1",
-							"script": "AggregateReviewCountByRating sink(input(\n\t\tid as integer,\n\t\tRatingWithLocation as string,\n\t\tReviewCount as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['RatingWithLocation'],\n\tmapColumn(\n\t\tRatingWithLocation,\n\t\tReviewCount\n\t)) ~> sink1"
+							"name": "SinkToSQL",
+							"script": "AggregateReviewCountByRating sink(input(\n\t\tid as integer,\n\t\tRatingWithLocation as string,\n\t\tReviewCount as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['RatingWithLocation'],\n\tmapColumn(\n\t\tRatingWithLocation,\n\t\tReviewCount\n\t)) ~> SinkToSQL"
 						}
 					],
 					"transformations": [
@@ -858,7 +858,7 @@
 						"type": "Copy",
 						"dependsOn": [
 							{
-								"activity": "Look For S3 Data",
+								"activity": "S3 Object Exists",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -898,37 +898,6 @@
 						]
 					},
 					{
-						"name": "Look For S3 Data",
-						"type": "Lookup",
-						"dependsOn": [
-							{
-								"activity": "S3 Object Exists",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "FileSystemSource",
-								"recursive": true
-							},
-							"dataset": {
-								"referenceName": "Amazon_S3_Object",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
 						"name": "S3 Does Not Exist",
 						"type": "WebActivity",
 						"dependsOn": [
@@ -954,34 +923,6 @@
 							"body": {
 								"value": "{\n\"error\": \"unable to access S3 object\"\n}",
 								"type": "Expression"
-							}
-						}
-					},
-					{
-						"name": "S3 Has No Data",
-						"type": "WebActivity",
-						"dependsOn": [
-							{
-								"activity": "Look For S3 Data",
-								"dependencyConditions": [
-									"Failed"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://prod-34.eastus.logic.azure.com:443/workflows/cc1c41cefcda4773b17ef1565b6366d3/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OpgAMjs3ObbrlTBIIScvQQY2Lk2onl2nzNnGntTgLGQ",
-							"method": "POST",
-							"headers": {},
-							"body": {
-								"error": "S3 has no data"
 							}
 						}
 					}
@@ -1143,7 +1084,7 @@
 								"parameters": {},
 								"datasetParameters": {
 									"RawYelpData": {},
-									"sink1": {}
+									"SinkToSQL": {}
 								}
 							},
 							"staging": {},

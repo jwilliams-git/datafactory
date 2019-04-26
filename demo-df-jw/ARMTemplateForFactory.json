@@ -151,7 +151,7 @@
 						"type": "AzureFunctionActivity",
 						"dependsOn": [],
 						"policy": {
-							"timeout": "7.00:00:00",
+							"timeout": "0.00:01:00",
 							"retry": 0,
 							"retryIntervalInSeconds": 30,
 							"secureOutput": false,
@@ -200,7 +200,7 @@
 							"source": {
 								"type": "AzureTableSource",
 								"azureTableSourceQuery": {
-									"value": "@concat('TimeStamp gt ', formatDateTime(adddays(utcnow(),-30)))",
+									"value": "@concat('Timestamp gt ''', formatDateTime(adddays(utcnow(),-30)),'''')",
 									"type": "Expression"
 								},
 								"azureTableSourceIgnoreTableNotFound": false
@@ -383,7 +383,7 @@
 						"type": "Copy",
 						"dependsOn": [
 							{
-								"activity": "Look For S3 Data",
+								"activity": "S3 Object Exists",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -423,37 +423,6 @@
 						]
 					},
 					{
-						"name": "Look For S3 Data",
-						"type": "Lookup",
-						"dependsOn": [
-							{
-								"activity": "S3 Object Exists",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "FileSystemSource",
-								"recursive": true
-							},
-							"dataset": {
-								"referenceName": "Amazon_S3_Object",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						}
-					},
-					{
 						"name": "S3 Does Not Exist",
 						"type": "WebActivity",
 						"dependsOn": [
@@ -481,15 +450,148 @@
 								"type": "Expression"
 							}
 						}
+					}
+				],
+				"folder": {
+					"name": "Activities"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Amazon_S3_Object')]",
+				"[concat(variables('factoryId'), '/datasets/Local_File_Share')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Copy Yelp Data')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy Yelp Data 1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "SqlSink",
+								"writeBatchSize": 10000
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"id": "YelpId",
+									"name": "Name",
+									"review_count": "ReviewCount",
+									"rating": "Rating",
+									"categories": "Category",
+									"city": "SearchLocationCity",
+									"state": "SearchLocationState"
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Get_Yelp_Data_1",
+								"type": "DatasetReference",
+								"parameters": {
+									"Category": {
+										"value": "@pipeline().parameters.Category1",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Raw_Yelp_Data",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					},
 					{
-						"name": "S3 Has No Data",
-						"type": "WebActivity",
+						"name": "Copy Yelp Data 2",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "SqlSink",
+								"writeBatchSize": 10000
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"id": "YelpId",
+									"name": "Name",
+									"review_count": "ReviewCount",
+									"rating": "Rating",
+									"categories": "Category",
+									"city": "SearchLocationCity",
+									"state": "SearchLocationState"
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Get_Yelp_Data_1",
+								"type": "DatasetReference",
+								"parameters": {
+									"Category": {
+										"value": "@pipeline().parameters.Category2",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Raw_Yelp_Data",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Aggregate Yelp Data",
+						"type": "ExecuteDataFlow",
 						"dependsOn": [
 							{
-								"activity": "Look For S3 Data",
+								"activity": "Copy Yelp Data 2",
 								"dependencyConditions": [
-									"Failed"
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy Yelp Data 1",
+								"dependencyConditions": [
+									"Succeeded"
 								]
 							}
 						],
@@ -502,23 +604,40 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"url": "https://prod-34.eastus.logic.azure.com:443/workflows/cc1c41cefcda4773b17ef1565b6366d3/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OpgAMjs3ObbrlTBIIScvQQY2Lk2onl2nzNnGntTgLGQ",
-							"method": "POST",
-							"headers": {},
-							"body": {
-								"error": "S3 has no data"
+							"dataflow": {
+								"referenceName": "Aggregate Yelp Data",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"RawYelpData": {},
+									"SinkToSQL": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"computeType": "General",
+								"coreCount": 8
 							}
 						}
 					}
 				],
+				"parameters": {
+					"Category1": {
+						"type": "string"
+					},
+					"Category2": {
+						"type": "string"
+					}
+				},
 				"folder": {
 					"name": "Activities"
 				},
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Amazon_S3_Object')]",
-				"[concat(variables('factoryId'), '/datasets/Local_File_Share')]"
+				"[concat(variables('factoryId'), '/datasets/Get_Yelp_Data_1')]",
+				"[concat(variables('factoryId'), '/datasets/Raw_Yelp_Data')]",
+				"[concat(variables('factoryId'), '/dataflows/Aggregate Yelp Data')]"
 			]
 		},
 		{
@@ -1050,6 +1169,55 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Raw_Yelp_Data')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"structure": [
+					{
+						"name": "YelpId",
+						"type": "String"
+					},
+					{
+						"name": "Name",
+						"type": "String"
+					},
+					{
+						"name": "ReviewCount",
+						"type": "Int32"
+					},
+					{
+						"name": "Rating",
+						"type": "Decimal"
+					},
+					{
+						"name": "Category",
+						"type": "String"
+					},
+					{
+						"name": "SearchLocationCity",
+						"type": "String"
+					},
+					{
+						"name": "SearchLocationState",
+						"type": "String"
+					}
+				],
+				"typeProperties": {
+					"tableName": "[concat('[', 'dbo].[YelpRawData]')]"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Raw_Yelp_Data_DF')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1107,7 +1275,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Raw_Yelp_Data')]",
+			"name": "[concat(parameters('factoryName'), '/Raw_Yelp_Data_DF_Aggregate')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1117,38 +1285,24 @@
 				},
 				"annotations": [],
 				"type": "AzureSqlTable",
-				"structure": [
+				"schema": [
 					{
-						"name": "YelpId",
-						"type": "String"
+						"name": "id",
+						"type": "int",
+						"precision": 10
 					},
 					{
-						"name": "Name",
-						"type": "String"
+						"name": "RatingWithLocation",
+						"type": "nvarchar"
 					},
 					{
 						"name": "ReviewCount",
-						"type": "Int32"
-					},
-					{
-						"name": "Rating",
-						"type": "Decimal"
-					},
-					{
-						"name": "Category",
-						"type": "String"
-					},
-					{
-						"name": "SearchLocationCity",
-						"type": "String"
-					},
-					{
-						"name": "SearchLocationState",
-						"type": "String"
+						"type": "int",
+						"precision": 10
 					}
 				],
 				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[YelpRawData]')]"
+					"tableName": "[concat('[', 'dbo].[YelpAggregateData]')]"
 				}
 			},
 			"dependsOn": [
@@ -1474,8 +1628,8 @@
 								"referenceName": "Raw_Yelp_Data_DF_Aggregate",
 								"type": "DatasetReference"
 							},
-							"name": "sink1",
-							"script": "AggregateReviewCountByRating sink(input(\n\t\tid as integer,\n\t\tRatingWithLocation as string,\n\t\tReviewCount as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['RatingWithLocation'],\n\tmapColumn(\n\t\tRatingWithLocation,\n\t\tReviewCount\n\t)) ~> sink1"
+							"name": "SinkToSQL",
+							"script": "AggregateReviewCountByRating sink(input(\n\t\tid as integer,\n\t\tRatingWithLocation as string,\n\t\tReviewCount as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['RatingWithLocation'],\n\tmapColumn(\n\t\tRatingWithLocation,\n\t\tReviewCount\n\t)) ~> SinkToSQL"
 						}
 					],
 					"transformations": [
@@ -1493,219 +1647,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Raw_Yelp_Data_DF')]",
 				"[concat(variables('factoryId'), '/datasets/Raw_Yelp_Data_DF_Aggregate')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Copy Yelp Data')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy Yelp Data 1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "SqlSink",
-								"writeBatchSize": 10000
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"columnMappings": {
-									"id": "YelpId",
-									"name": "Name",
-									"review_count": "ReviewCount",
-									"rating": "Rating",
-									"categories": "Category",
-									"city": "SearchLocationCity",
-									"state": "SearchLocationState"
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "Get_Yelp_Data_1",
-								"type": "DatasetReference",
-								"parameters": {
-									"Category": {
-										"value": "@pipeline().parameters.Category1",
-										"type": "Expression"
-									}
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "Raw_Yelp_Data",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy Yelp Data 2",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "SqlSink",
-								"writeBatchSize": 10000
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"columnMappings": {
-									"id": "YelpId",
-									"name": "Name",
-									"review_count": "ReviewCount",
-									"rating": "Rating",
-									"categories": "Category",
-									"city": "SearchLocationCity",
-									"state": "SearchLocationState"
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "Get_Yelp_Data_1",
-								"type": "DatasetReference",
-								"parameters": {
-									"Category": {
-										"value": "@pipeline().parameters.Category2",
-										"type": "Expression"
-									}
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "Raw_Yelp_Data",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Aggregate Yelp Data",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "Copy Yelp Data 2",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy Yelp Data 1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "Aggregate Yelp Data",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"RawYelpData": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"computeType": "General",
-								"coreCount": 8
-							}
-						}
-					}
-				],
-				"parameters": {
-					"Category1": {
-						"type": "string"
-					},
-					"Category2": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "Activities"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Get_Yelp_Data_1')]",
-				"[concat(variables('factoryId'), '/datasets/Raw_Yelp_Data')]",
-				"[concat(variables('factoryId'), '/dataflows/Aggregate Yelp Data')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Raw_Yelp_Data_DF_Aggregate')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "RatingWithLocation",
-						"type": "nvarchar"
-					},
-					{
-						"name": "ReviewCount",
-						"type": "int",
-						"precision": 10
-					}
-				],
-				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[YelpAggregateData]')]"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase1')]"
 			]
 		}
 	]
