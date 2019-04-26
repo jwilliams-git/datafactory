@@ -22,7 +22,7 @@
 				"type": "varchar"
 			},
 			{
-				"name": "LocationWithPrice",
+				"name": "Location",
 				"type": "nvarchar"
 			},
 			{
