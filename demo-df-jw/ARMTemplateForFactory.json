@@ -499,7 +499,8 @@
 									"rating": "Rating",
 									"categories": "Category",
 									"city": "SearchLocationCity",
-									"state": "SearchLocationState"
+									"state": "SearchLocationState",
+									"price": "Price"
 								}
 							}
 						},
@@ -510,6 +511,10 @@
 								"parameters": {
 									"Category": {
 										"value": "@pipeline().parameters.Category1",
+										"type": "Expression"
+									},
+									"City": {
+										"value": "@pipeline().parameters.City1",
 										"type": "Expression"
 									}
 								}
@@ -554,7 +559,8 @@
 									"rating": "Rating",
 									"categories": "Category",
 									"city": "SearchLocationCity",
-									"state": "SearchLocationState"
+									"state": "SearchLocationState",
+									"price": "Price"
 								}
 							}
 						},
@@ -565,6 +571,10 @@
 								"parameters": {
 									"Category": {
 										"value": "@pipeline().parameters.Category2",
+										"type": "Expression"
+									},
+									"City": {
+										"value": "@pipeline().parameters.City2",
 										"type": "Expression"
 									}
 								}
@@ -619,6 +629,46 @@
 								"coreCount": 8
 							}
 						}
+					},
+					{
+						"name": "Handle Error",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "Copy Yelp Data 2",
+								"dependencyConditions": [
+									"Failed"
+								]
+							},
+							{
+								"activity": "Copy Yelp Data 1",
+								"dependencyConditions": [
+									"Failed"
+								]
+							},
+							{
+								"activity": "Aggregate Yelp Data",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.00:01:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://prod-34.eastus.logic.azure.com:443/workflows/cc1c41cefcda4773b17ef1565b6366d3/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OpgAMjs3ObbrlTBIIScvQQY2Lk2onl2nzNnGntTgLGQ",
+							"method": "POST",
+							"headers": {},
+							"body": {
+								"error": "Unable to copy yelp data"
+							}
+						}
 					}
 				],
 				"parameters": {
@@ -626,6 +676,12 @@
 						"type": "string"
 					},
 					"Category2": {
+						"type": "string"
+					},
+					"City1": {
+						"type": "string"
+					},
+					"City2": {
 						"type": "string"
 					}
 				},
@@ -959,6 +1015,9 @@
 				"parameters": {
 					"Category": {
 						"type": "string"
+					},
+					"City": {
+						"type": "string"
 					}
 				},
 				"annotations": [],
@@ -1094,7 +1153,7 @@
 						}
 					},
 					"relativeUrl": {
-						"value": "@concat('?location=Pittsburgh, PA&radius=40000&sort_by=rating&limit=50&categories=',dataset().Category)",
+						"value": "@concat('?location=',dataset().City,'&radius=40000&sort_by=rating&limit=50&categories=',dataset().Category)",
 						"type": "Expression"
 					},
 					"requestMethod": "GET",
@@ -1207,6 +1266,10 @@
 					{
 						"name": "SearchLocationState",
 						"type": "String"
+					},
+					{
+						"name": "Price",
+						"type": "String"
 					}
 				],
 				"typeProperties": {
@@ -1264,6 +1327,10 @@
 					{
 						"name": "SearchLocationState",
 						"type": "char"
+					},
+					{
+						"name": "Price",
+						"type": "varchar"
 					}
 				],
 				"typeProperties": {
@@ -1292,11 +1359,20 @@
 						"precision": 10
 					},
 					{
-						"name": "RatingWithLocation",
+						"name": "ReviewCount",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Price",
+						"type": "varchar"
+					},
+					{
+						"name": "Location",
 						"type": "nvarchar"
 					},
 					{
-						"name": "ReviewCount",
+						"name": "LocationWithPriceCount",
 						"type": "int",
 						"precision": 10
 					}
@@ -1618,7 +1694,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "RawYelpData",
-							"script": "source(output(\n\t\tId as integer,\n\t\tYelpId as string,\n\t\tName as string,\n\t\tReviewCount as integer,\n\t\tRating as decimal(3,2),\n\t\tCategory as string,\n\t\tSearchLocationCity as string,\n\t\tSearchLocationState as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table') ~> RawYelpData",
+							"script": "source(output(\n\t\tId as integer,\n\t\tYelpId as string,\n\t\tName as string,\n\t\tReviewCount as integer,\n\t\tRating as decimal(3,2),\n\t\tCategory as string,\n\t\tSearchLocationCity as string,\n\t\tSearchLocationState as string,\n\t\tPrice as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table') ~> RawYelpData",
 							"typeProperties": {}
 						}
 					],
@@ -1629,7 +1705,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "SinkToSQL",
-							"script": "AggregateReviewCountByRating sink(input(\n\t\tid as integer,\n\t\tRatingWithLocation as string,\n\t\tReviewCount as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['RatingWithLocation'],\n\tmapColumn(\n\t\tRatingWithLocation,\n\t\tReviewCount\n\t)) ~> SinkToSQL"
+							"script": "AggregateReviewCountByRating sink(input(\n\t\tid as integer,\n\t\tReviewCount as integer,\n\t\tPrice as string,\n\t\tLocation as string,\n\t\tLocationWithPriceCount as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tkeys:['Price','SearchLocationCity'],\n\tmapColumn(\n\t\tReviewCount,\n\t\tPrice,\n\t\tLocation = SearchLocationCity,\n\t\tLocationWithPriceCount\n\t)) ~> SinkToSQL"
 						}
 					],
 					"transformations": [
@@ -1639,7 +1715,7 @@
 						},
 						{
 							"name": "AggregateReviewCountByRating",
-							"script": "FilterByReviewCount aggregate(groupBy(RatingWithLocation = concat(toString(Rating),',',SearchLocationCity,',',SearchLocationState)),\n\tReviewCount = round(avg(ReviewCount),2)) ~> AggregateReviewCountByRating"
+							"script": "FilterByReviewCount aggregate(groupBy(Price,\n\t\tSearchLocationCity),\n\tLocationWithPriceCount = count(Id),\n\t\tReviewCount = sum(ReviewCount)) ~> AggregateReviewCountByRating"
 						}
 					]
 				}
