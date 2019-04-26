@@ -10,7 +10,7 @@
 						"referenceName": "Amazon_S3_Object",
 						"type": "DatasetReference"
 					},
-					"timeout": "0.00:00:15",
+					"timeout": "0.00:01:00",
 					"sleep": 10
 				}
 			},
