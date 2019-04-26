@@ -43,6 +43,10 @@
 							"Category": {
 								"value": "@pipeline().parameters.Category1",
 								"type": "Expression"
+							},
+							"City": {
+								"value": "@pipeline().parameters.City1",
+								"type": "Expression"
 							}
 						}
 					}
@@ -94,6 +98,10 @@
 						"parameters": {
 							"Category": {
 								"value": "@pipeline().parameters.Category2",
+								"type": "Expression"
+							},
+							"City": {
+								"value": "@pipeline().parameters.City2",
 								"type": "Expression"
 							}
 						}
