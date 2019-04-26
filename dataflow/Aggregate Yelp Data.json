@@ -20,7 +20,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "SinkToSQL",
-					"script": "AggregateReviewCountByRating sink(input(\n\t\tid as integer,\n\t\tRatingWithLocation as string,\n\t\tReviewCount as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['RatingWithLocation'],\n\tmapColumn(\n\t\tRatingWithLocation = {Grouped by price, city, and state},\n\t\tReviewCount = Id\n\t)) ~> SinkToSQL"
+					"script": "AggregateReviewCountByRating sink(input(\n\t\tid as integer,\n\t\tRatingWithLocation as string,\n\t\tReviewCount as integer,\n\t\tPrice as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['RatingWithLocation']) ~> SinkToSQL"
 				}
 			],
 			"transformations": [
