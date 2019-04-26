@@ -22,13 +22,17 @@
 				"type": "varchar"
 			},
 			{
-				"name": "Location",
+				"name": "City",
 				"type": "nvarchar"
 			},
 			{
 				"name": "LocationWithPriceCount",
 				"type": "int",
 				"precision": 10
+			},
+			{
+				"name": "State",
+				"type": "char"
 			}
 		],
 		"typeProperties": {
