@@ -24,6 +24,11 @@
 			{
 				"name": "LocationWithPrice",
 				"type": "nvarchar"
+			},
+			{
+				"name": "LocationWithPriceCount",
+				"type": "int",
+				"precision": 10
 			}
 		],
 		"typeProperties": {
