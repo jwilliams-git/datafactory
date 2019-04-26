@@ -10,7 +10,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "RawYelpData",
-					"script": "source(output(\n\t\tId as integer,\n\t\tYelpId as string,\n\t\tName as string,\n\t\tReviewCount as integer,\n\t\tRating as decimal(3,2),\n\t\tCategory as string,\n\t\tSearchLocationCity as string,\n\t\tSearchLocationState as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tquery: '',\n\tformat: 'query') ~> RawYelpData"
+					"script": "source(output(\n\t\tId as integer,\n\t\tYelpId as string,\n\t\tName as string,\n\t\tReviewCount as integer,\n\t\tRating as decimal(3,2),\n\t\tCategory as string,\n\t\tSearchLocationCity as string,\n\t\tSearchLocationState as string,\n\t\tPrice as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table') ~> RawYelpData"
 				}
 			],
 			"sinks": [
@@ -20,7 +20,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "SinkToSQL",
-					"script": "AggregateReviewCountByRating sink(input(\n\t\tid as integer,\n\t\tRatingWithLocation as string,\n\t\tReviewCount as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['RatingWithLocation'],\n\tmapColumn(\n\t\tRatingWithLocation,\n\t\tReviewCount\n\t)) ~> SinkToSQL"
+					"script": "AggregateReviewCountByRating sink(input(\n\t\tid as integer,\n\t\tRatingWithLocation as string,\n\t\tReviewCount as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['RatingWithLocation'],\n\tmapColumn(\n\t\tRatingWithLocation = {Grouped by price, city, and state},\n\t\tReviewCount = Id\n\t)) ~> SinkToSQL"
 				}
 			],
 			"transformations": [
@@ -30,7 +30,7 @@
 				},
 				{
 					"name": "AggregateReviewCountByRating",
-					"script": "FilterByReviewCount aggregate(groupBy(RatingWithLocation = concat(toString(Rating),',',SearchLocationCity,',',SearchLocationState)),\n\tReviewCount = round(avg(ReviewCount),2)) ~> AggregateReviewCountByRating"
+					"script": "FilterByReviewCount aggregate(groupBy({Grouped by price, city, and state} = concat(Price,',',SearchLocationCity,',',SearchLocationState)),\n\tId = count(Id)) ~> AggregateReviewCountByRating"
 				}
 			]
 		}
