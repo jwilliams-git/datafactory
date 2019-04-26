@@ -20,6 +20,10 @@
 				"name": "ReviewCount",
 				"type": "int",
 				"precision": 10
+			},
+			{
+				"name": "Price",
+				"type": "varchar"
 			}
 		],
 		"typeProperties": {
