@@ -628,7 +628,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "AzureTableSource",
-								"azureTableSourceQuery": "Processed eq false",
+								"azureTableSourceQuery": "@concat('Timestamp gt datetime''', formatDateTime(adddays(utcnow(),-30)),'''')",
 								"azureTableSourceIgnoreTableNotFound": false
 							},
 							"sink": {
@@ -650,6 +650,40 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "Handle Error",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "Lookup Data",
+								"dependencyConditions": [
+									"Failed"
+								]
+							},
+							{
+								"activity": "Copy Data To Blob",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://prod-34.eastus.logic.azure.com:443/workflows/cc1c41cefcda4773b17ef1565b6366d3/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OpgAMjs3ObbrlTBIIScvQQY2Lk2onl2nzNnGntTgLGQ",
+							"method": "POST",
+							"headers": {},
+							"body": {
+								"message": "error copying automobile data"
+							}
+						}
 					}
 				],
 				"folder": {
