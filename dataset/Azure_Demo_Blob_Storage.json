@@ -7,7 +7,14 @@
 		},
 		"type": "AzureBlob",
 		"typeProperties": {
-			"fileName": "",
+			"format": {
+				"type": "JsonFormat",
+				"filePattern": "arrayOfObjects"
+			},
+			"fileName": {
+				"value": "@concat(guid(),'.json')",
+				"type": "Expression"
+			},
 			"folderPath": "files"
 		}
 	}

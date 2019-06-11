@@ -1,0 +1,56 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "WebHook1",
+				"type": "WebHook",
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"typeProperties": {
+					"url": "https://enbxcoo792wgf.x.pipedream.net/",
+					"method": "POST",
+					"body": {
+						"value": "@activity('Lookup1').output.firstRow.email",
+						"type": "Expression"
+					},
+					"timeout": "00:1:00"
+				}
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSetting"
+						}
+					},
+					"dataset": {
+						"referenceName": "Parquet1",
+						"type": "DatasetReference"
+					}
+				}
+			}
+		],
+		"variables": {
+			"test": {
+				"type": "String"
+			}
+		}
+	}
+}
