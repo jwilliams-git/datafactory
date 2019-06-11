@@ -492,7 +492,7 @@
 					}
 				],
 				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[YelpRawData]')]"
+					"tableName": "[[dbo].[YelpRawData]"
 				}
 			},
 			"dependsOn": [

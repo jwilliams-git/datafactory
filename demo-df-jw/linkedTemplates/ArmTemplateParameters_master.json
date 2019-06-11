@@ -63,7 +63,7 @@
 			"value": "files"
 		},
 		"Azure_Demo_Blob_Storage_properties_typeProperties_fileName": {
-			"value": ""
+			"value": "@concat(guid(),'.json')"
 		},
 		"Azure_Demo_Blob_Storage_properties_typeProperties_folderPath": {
 			"value": "files"

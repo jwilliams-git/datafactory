@@ -85,7 +85,7 @@
 		},
 		"Azure_Demo_Blob_Storage_properties_typeProperties_fileName": {
 			"type": "string",
-			"defaultValue": ""
+			"defaultValue": "@concat(guid(),'.json')"
 		},
 		"Azure_Demo_Blob_Storage_properties_typeProperties_folderPath": {
 			"type": "string",
@@ -200,7 +200,7 @@
 							"source": {
 								"type": "AzureTableSource",
 								"azureTableSourceQuery": {
-									"value": "@concat('Timestamp gt ''', formatDateTime(adddays(utcnow(),-3)),'''')",
+									"value": "@concat('Timestamp gt datetime''', formatDateTime(adddays(utcnow(),-3)),'''')",
 									"type": "Expression"
 								},
 								"azureTableSourceIgnoreTableNotFound": false
@@ -661,11 +661,7 @@
 									"SinkToSQL": {}
 								}
 							},
-							"staging": {},
-							"compute": {
-								"computeType": "General",
-								"coreCount": 8
-							}
+							"staging": {}
 						}
 					},
 					{
@@ -909,7 +905,7 @@
 					}
 				],
 				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[YelpRawData]')]"
+					"tableName": "[[dbo].[YelpRawData]"
 				}
 			},
 			"dependsOn": [
@@ -976,7 +972,14 @@
 				"annotations": [],
 				"type": "AzureBlob",
 				"typeProperties": {
-					"fileName": "[parameters('Azure_Demo_Blob_Storage_properties_typeProperties_fileName')]",
+					"format": {
+						"type": "JsonFormat",
+						"filePattern": "arrayOfObjects"
+					},
+					"fileName": {
+						"value": "[parameters('Azure_Demo_Blob_Storage_properties_typeProperties_fileName')]",
+						"type": "Expression"
+					},
 					"folderPath": "[parameters('Azure_Demo_Blob_Storage_properties_typeProperties_folderPath')]"
 				}
 			},
@@ -1164,30 +1167,30 @@
 						"filePattern": "setOfObjects",
 						"jsonNodeReference": "$.['businesses']",
 						"jsonPathDefinition": {
-							"id": "[concat('[', '''id'']')]",
-							"alias": "[concat('[', '''alias'']')]",
-							"name": "[concat('[', '''name'']')]",
-							"image_url": "[concat('[', '''image_url'']')]",
-							"is_closed": "[concat('[', '''is_closed'']')]",
-							"url": "[concat('[', '''url'']')]",
-							"review_count": "[concat('[', '''review_count'']')]",
-							"categories": "[concat('[', '''categories'']')]",
-							"rating": "[concat('[', '''rating'']')]",
-							"latitude": "[concat('[', '''coordinates''][''latitude'']')]",
-							"longitude": "[concat('[', '''coordinates''][''longitude'']')]",
-							"transactions": "[concat('[', '''transactions'']')]",
-							"price": "[concat('[', '''price'']')]",
-							"address1": "[concat('[', '''location''][''address1'']')]",
-							"address2": "[concat('[', '''location''][''address2'']')]",
-							"address3": "[concat('[', '''location''][''address3'']')]",
-							"city": "[concat('[', '''location''][''city'']')]",
-							"zip_code": "[concat('[', '''location''][''zip_code'']')]",
-							"country": "[concat('[', '''location''][''country'']')]",
-							"state": "[concat('[', '''location''][''state'']')]",
-							"display_address": "[concat('[', '''location''][''display_address'']')]",
-							"phone": "[concat('[', '''phone'']')]",
-							"display_phone": "[concat('[', '''display_phone'']')]",
-							"distance": "[concat('[', '''distance'']')]"
+							"id": "[['id']",
+							"alias": "[['alias']",
+							"name": "[['name']",
+							"image_url": "[['image_url']",
+							"is_closed": "[['is_closed']",
+							"url": "[['url']",
+							"review_count": "[['review_count']",
+							"categories": "[['categories']",
+							"rating": "[['rating']",
+							"latitude": "[['coordinates']['latitude']",
+							"longitude": "[['coordinates']['longitude']",
+							"transactions": "[['transactions']",
+							"price": "[['price']",
+							"address1": "[['location']['address1']",
+							"address2": "[['location']['address2']",
+							"address3": "[['location']['address3']",
+							"city": "[['location']['city']",
+							"zip_code": "[['location']['zip_code']",
+							"country": "[['location']['country']",
+							"state": "[['location']['state']",
+							"display_address": "[['location']['display_address']",
+							"phone": "[['phone']",
+							"display_phone": "[['display_phone']",
+							"distance": "[['distance']"
 						}
 					},
 					"relativeUrl": {
@@ -1311,7 +1314,7 @@
 					}
 				],
 				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[YelpRawData]')]"
+					"tableName": "[[dbo].[YelpRawData]"
 				}
 			},
 			"dependsOn": [
@@ -1372,7 +1375,7 @@
 					}
 				],
 				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[YelpRawData]')]"
+					"tableName": "[[dbo].[YelpRawData]"
 				}
 			},
 			"dependsOn": [
@@ -1420,7 +1423,7 @@
 					}
 				],
 				"typeProperties": {
-					"tableName": "[concat('[', 'dbo].[YelpAggregateData]')]"
+					"tableName": "[[dbo].[YelpAggregateData]"
 				}
 			},
 			"dependsOn": [
@@ -1736,8 +1739,8 @@
 								"type": "DatasetReference"
 							},
 							"name": "RawYelpData",
-							"script": "source(output(\n\t\tId as integer,\n\t\tYelpId as string,\n\t\tName as string,\n\t\tReviewCount as integer,\n\t\tRating as decimal(3,2),\n\t\tCategory as string,\n\t\tSearchLocationCity as string,\n\t\tSearchLocationState as string,\n\t\tPrice as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table') ~> RawYelpData",
-							"typeProperties": {}
+							"typeProperties": {},
+							"script": "source(output(\n\t\tId as integer,\n\t\tYelpId as string,\n\t\tName as string,\n\t\tReviewCount as integer,\n\t\tRating as decimal(3,2),\n\t\tCategory as string,\n\t\tSearchLocationCity as string,\n\t\tSearchLocationState as string,\n\t\tPrice as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table') ~> RawYelpData"
 						}
 					],
 					"sinks": [
@@ -1765,6 +1768,151 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Raw_Yelp_Data_DF')]",
 				"[concat(variables('factoryId'), '/datasets/Raw_Yelp_Data_DF_Aggregate')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "WebHook1",
+						"type": "WebHook",
+						"dependsOn": [
+							{
+								"activity": "Lookup1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://enbxcoo792wgf.x.pipedream.net/",
+							"method": "POST",
+							"headers": {},
+							"body": {
+								"value": "@activity('Lookup1').output.firstRow.email",
+								"type": "Expression"
+							},
+							"timeout": "00:1:00"
+						}
+					},
+					{
+						"name": "Lookup1",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ParquetSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSetting"
+								}
+							},
+							"dataset": {
+								"referenceName": "Parquet1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					}
+				],
+				"variables": {
+					"test": {
+						"type": "String"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Parquet1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Parquet1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Demo Blob Storage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "userdata1.parquet",
+						"container": "files"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": [
+					{
+						"name": "registration_dttm",
+						"type": "INT96"
+					},
+					{
+						"name": "id",
+						"type": "INT32"
+					},
+					{
+						"name": "first_name",
+						"type": "UTF8"
+					},
+					{
+						"name": "last_name",
+						"type": "UTF8"
+					},
+					{
+						"name": "email",
+						"type": "UTF8"
+					},
+					{
+						"name": "gender",
+						"type": "UTF8"
+					},
+					{
+						"name": "ip_address",
+						"type": "UTF8"
+					},
+					{
+						"name": "cc",
+						"type": "UTF8"
+					},
+					{
+						"name": "country",
+						"type": "UTF8"
+					},
+					{
+						"name": "birthdate",
+						"type": "UTF8"
+					},
+					{
+						"name": "salary",
+						"type": "DOUBLE"
+					},
+					{
+						"name": "title",
+						"type": "UTF8"
+					},
+					{
+						"name": "comments",
+						"type": "UTF8"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Demo Blob Storage')]"
 			]
 		}
 	]

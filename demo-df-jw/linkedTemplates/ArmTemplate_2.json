@@ -1,0 +1,344 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory Name",
+			"defaultValue": "demo-df-jw"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Copy S3 Data')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "S3 Object Exists",
+						"type": "Validation",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "Amazon_S3_Object",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"timeout": "0.00:01:00",
+							"sleep": 20
+						}
+					},
+					{
+						"name": "Copy S3 Object",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "S3 Object Exists",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "FileSystemSource",
+								"recursive": true
+							},
+							"sink": {
+								"type": "FileSystemSink"
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "Amazon_S3_Object",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Local_File_Share",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "S3 Does Not Exist",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "S3 Object Exists",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://prod-34.eastus.logic.azure.com:443/workflows/cc1c41cefcda4773b17ef1565b6366d3/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OpgAMjs3ObbrlTBIIScvQQY2Lk2onl2nzNnGntTgLGQ",
+							"method": "POST",
+							"headers": {},
+							"body": {
+								"value": "{\n\"error\": \"unable to access S3 object\"\n}",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"folder": {
+					"name": "Activities"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Copy Yelp Data')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy Yelp Data 1",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "SqlSink",
+								"writeBatchSize": 10000
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"id": "YelpId",
+									"name": "Name",
+									"review_count": "ReviewCount",
+									"rating": "Rating",
+									"categories": "Category",
+									"city": "SearchLocationCity",
+									"state": "SearchLocationState",
+									"price": "Price"
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Get_Yelp_Data_1",
+								"type": "DatasetReference",
+								"parameters": {
+									"Category": {
+										"value": "@pipeline().parameters.Category1",
+										"type": "Expression"
+									},
+									"City": {
+										"value": "@pipeline().parameters.City1",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Raw_Yelp_Data",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy Yelp Data 2",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "SqlSink",
+								"writeBatchSize": 10000
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"id": "YelpId",
+									"name": "Name",
+									"review_count": "ReviewCount",
+									"rating": "Rating",
+									"categories": "Category",
+									"city": "SearchLocationCity",
+									"state": "SearchLocationState",
+									"price": "Price"
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Get_Yelp_Data_1",
+								"type": "DatasetReference",
+								"parameters": {
+									"Category": {
+										"value": "@pipeline().parameters.Category2",
+										"type": "Expression"
+									},
+									"City": {
+										"value": "@pipeline().parameters.City2",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Raw_Yelp_Data",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Aggregate Yelp Data",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Copy Yelp Data 2",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy Yelp Data 1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "Aggregate Yelp Data",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"RawYelpData": {},
+									"SinkToSQL": {}
+								}
+							},
+							"staging": {}
+						}
+					},
+					{
+						"name": "Handle Error",
+						"type": "WebActivity",
+						"dependsOn": [
+							{
+								"activity": "Copy Yelp Data 2",
+								"dependencyConditions": [
+									"Failed"
+								]
+							},
+							{
+								"activity": "Copy Yelp Data 1",
+								"dependencyConditions": [
+									"Failed"
+								]
+							},
+							{
+								"activity": "Aggregate Yelp Data",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.00:01:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"url": "https://prod-34.eastus.logic.azure.com:443/workflows/cc1c41cefcda4773b17ef1565b6366d3/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=OpgAMjs3ObbrlTBIIScvQQY2Lk2onl2nzNnGntTgLGQ",
+							"method": "POST",
+							"headers": {},
+							"body": {
+								"error": "Unable to copy yelp data"
+							}
+						}
+					}
+				],
+				"parameters": {
+					"Category1": {
+						"type": "string"
+					},
+					"Category2": {
+						"type": "string"
+					},
+					"City1": {
+						"type": "string"
+					},
+					"City2": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Activities"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		}
+	]
+}
