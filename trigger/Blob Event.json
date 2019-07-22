@@ -4,7 +4,8 @@
 		"annotations": [
 			"Blob created"
 		],
-		"runtimeState": "Stopped",
+		"runtimeState": "Started",
+		"pipelines": [],
 		"type": "BlobEventsTrigger",
 		"typeProperties": {
 			"blobPathBeginsWith": "/test/",
